@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="az">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolio — Interior Dizayn Studiyası</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="css/main.css">
+</head>
+
+<body>
+
+  <!-- ===== HEADER ===== -->
+  <header class="oi-header">
+    <div class="oi-container oi-header__inner">
+
+      <a href="index.html" class="oi-logo">
+        <img src="Logo.svg" alt="Logo">
+      </a>
+
+      <nav class="oi-nav">
+        <div class="oi-nav__contacts">
+          <a href="mailto:office@oksanaivanova.com" class="oi-nav__email"
+            data-setting="contact_email">office@oksanaivanova.com</a>
+          <a href="tel:+380971419977" class="oi-nav__phone" data-setting="contact_phone">+380 97 141 99 77</a>
+        </div>
+        <div class="oi-nav__right">
+          <div class="oi-lang">
+            <a href="#" class="oi-lang__item active" data-lang="az">AZ</a>
+            <span>|</span>
+            <a href="#" class="oi-lang__item" data-lang="en">EN</a>
+          </div>
+          <div class="oi-social">
+            <a href="#" class="oi-social__link" aria-label="Instagram" data-setting="social_instagram">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="2" y="2" width="20" height="20" rx="5" />
+                <circle cx="12" cy="12" r="4" />
+                <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
+              </svg>
+            </a>
+            <a href="#" class="oi-social__link" aria-label="Facebook" data-setting="social_facebook">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
+              </svg>
+            </a>
+            <a href="#" class="oi-social__link" aria-label="Behance" data-setting="social_behance">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path
+                  d="M9.5 11.5c.83 0 1.5-.67 1.5-1.5S10.33 8.5 9.5 8.5H6v3h3.5zm.5 2.5H6v3.5h4c.97 0 1.75-.78 1.75-1.75S11.03 14 10 14zM22 9h-5V8h5v1zM8.86 18H3V6h6.14C11.29 6 13 7.57 13 9.5c0 1.14-.57 2.14-1.43 2.71C12.71 12.79 13.5 14 13.5 15.5 13.5 17.43 11.57 18 8.86 18zm9.14 0c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4H16c0 1.1.9 2 2 2s1.72-.62 1.94-1.5H22c-.46 2-2.26 3.5-4 3.5z" />
+              </svg>
+            </a>
+          </div>
+        </div>
+      </nav>
+
+    </div>
+  </header>
+
+  <!-- ===== HERO ===== -->
+  <section class="oi-section mod-hero" id="hero">
+    <div class="oi-hero__overlay"></div>
+    <div class="oi-container oi-hero__content">
+      <h1 class="oi-hero__title" data-i18n="hero_title">Bele usta olarmi-Paputi</h1>
+      <p class="oi-hero__sub" data-i18n="hero_subtitle">Komandamız müasir trendlər əsasında eksklüziv dizayn yaradır</p>
+      <div class="oi-hero__btns">
+        <a href="#contacts" class="oi-btn oi-btn--primary" data-i18n="hero_btn_primary">Dizayn Konsepti Sifariş Et</a>
+        <a href="#contacts" class="oi-btn oi-btn--outline" data-i18n="hero_btn_outline">Konsultasiya</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PORTFOLIO ===== -->
+  <section class="oi-section mod-portfolio" id="portfolio">
+    <div class="oi-container mod-portfolio__header">
+      <h2 class="oi-section__title" data-i18n="concepts_title">Dizayn Konseptləri</h2>
+      <p class="oi-section__desc" data-i18n="concepts_desc">Hər layihə unikal hekayədir. Biz sizin ideyalarınızı gözəl
+        məkanlara çeviririk — funksionallıq və estetikanı birləşdirərək.</p>
+    </div>
+    <div class="oi-grid-row" id="portfolio-grid"></div>
+  </section>
+
+  <!-- ===== SERVICES ===== -->
+  <section class="oi-section mod-services" id="services">
+    <div class="oi-services__overlay"></div>
+    <div class="oi-container oi-services__content">
+      <h2 class="oi-section__title" data-i18n="services_title">Xidmətlər</h2>
+      <div class="oi-services__grid">
+
+        <div class="oi-service__card anim-fade">
+          <div class="oi-service__icon">
+            <svg width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+              <polyline points="9 22 9 12 15 12 15 22" />
+            </svg>
+          </div>
+          <h3 class="oi-service__title" data-i18n="service1_title">Dizayn Layihəsi</h3>
+          <p class="oi-service__desc" data-i18n="service1_desc">Tam dizayn paketi: planlaşdırma, 3D vizualizasiya,
+            texniki sənədlər.</p>
+        </div>
+
+        <div class="oi-service__card anim-fade">
+          <div class="oi-service__icon">
+            <svg width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <circle cx="12" cy="12" r="10" />
+              <polyline points="12 6 12 12 16 14" />
+            </svg>
+          </div>
+          <h3 class="oi-service__title" data-i18n="service2_title">Avtorluq Nəzarəti</h3>
+          <p class="oi-service__desc" data-i18n="service2_desc">Tikinti prosesinin hər mərhələsini dizayner nəzarəti
+            altında idarə edirik.</p>
+        </div>
+
+        <div class="oi-service__card anim-fade">
+          <div class="oi-service__icon">
+            <svg width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path
+                d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+            </svg>
+          </div>
+          <h3 class="oi-service__title" data-i18n="service3_title">Dekorasiya</h3>
+          <p class="oi-service__desc" data-i18n="service3_desc">Mebel seçimi, işıqlandırma, tekstil və aksesuarlarla
+            məkanı tamamlayırıq.</p>
+        </div>
+
+      </div>
+      <div class="oi-services__cta">
+        <a href="#contacts" class="oi-btn oi-btn--outline" data-i18n="services_cta_btn">Sifariş Ver</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PROCESS ===== -->
+  <section class="oi-section mod-process" id="process">
+    <div class="oi-container">
+      <h2 class="oi-section__title" data-i18n="process_title">İş Prosesi</h2>
+      <p class="oi-section__desc" data-i18n="process_desc">Hər layihə 5 mərhələdən keçir — ilk görüşdən tutmuş son
+        nəticəyə qədər sizi müşayiət edirik.</p>
+
+      <div class="oi-process">
+
+        <div class="oi-process__stage">
+          <div class="oi-process__label" data-i18n="process_stage1">Mərhələ I</div>
+          <div class="oi-process__bar" style="background-color:#8fa5b4;"></div>
+          <div class="oi-process__steps">
+            <span data-i18n="process_step1a">İlkin görüş</span>
+            <span data-i18n="process_step1b">Brief</span>
+          </div>
+        </div>
+
+        <div class="oi-process__stage">
+          <div class="oi-process__label" data-i18n="process_stage2">Mərhələ II</div>
+          <div class="oi-process__bar" style="background-color:#7a95a4;"></div>
+          <div class="oi-process__steps">
+            <span data-i18n="process_step2a">Konsept</span>
+            <span data-i18n="process_step2b">Moodboard</span>
+          </div>
+        </div>
+
+        <div class="oi-process__stage">
+          <div class="oi-process__label" data-i18n="process_stage3">Mərhələ III</div>
+          <div class="oi-process__bar" style="background-color:#6d7d8a;"></div>
+          <div class="oi-process__steps">
+            <span data-i18n="process_step3a">Layihə</span>
+            <span data-i18n="process_step3b">3D vizual</span>
+          </div>
+        </div>
+
+        <div class="oi-process__stage">
+          <div class="oi-process__label" data-i18n="process_stage4">Mərhələ IV</div>
+          <div class="oi-process__bar" style="background-color:#645e60;"></div>
+          <div class="oi-process__steps">
+            <span data-i18n="process_step4a">Reallaşdırma</span>
+            <span data-i18n="process_step4b">Nəzarət</span>
+          </div>
+        </div>
+
+        <div class="oi-process__stage">
+          <div class="oi-process__label" data-i18n="process_stage5">Mərhələ V</div>
+          <div class="oi-process__bar" style="background-color:#5c4a3a;"></div>
+          <div class="oi-process__steps">
+            <span data-i18n="process_step5a">Nəticə</span>
+            <span data-i18n="process_step5b">Təhvil</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== ABOUT / QUOTE ===== -->
+  <section class="oi-section mod-about" id="about">
+    <div class="oi-about__overlay"></div>
+    <div class="oi-container oi-about__content">
+      <h2 class="oi-about__quote" data-i18n="about_quote">Hər məkan bir hekayə danışır — bizim işimiz onu düzgün
+        danışmaqdır</h2>
+      <p class="oi-about__desc" data-i18n="about_desc">10 ildən artıq təcrübə ilə müştərilərimizin arzularını reallığa
+        çeviririk. Hər layihə unikaldır, hər dizayn fərdidir.</p>
+    </div>
+  </section>
+
+  <!-- ===== WHAT YOU GET ===== -->
+  <section class="oi-section mod-features" id="features">
+    <div class="oi-container">
+      <div class="oi-features__inner">
+
+        <div class="oi-features__left">
+          <h2 class="oi-features__title" data-i18n="features_title">Dizayn Paketinə Nə Daxildir</h2>
+          <p class="oi-features__desc" data-i18n="features_desc">Sifariş verdikdən sonra tam layihə paketi əldə
+            edirsiniz — planlardan tutmuş son detallaradək.</p>
+          <ul class="oi-features__list">
+            <li class="oi-feature__item">
+              <span class="oi-feature__icon">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>
+              </span>
+              <span data-i18n="feature1">3D vizualizasiya (bütün otaqlar)</span>
+            </li>
+            <li class="oi-feature__item">
+              <span class="oi-feature__icon">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>
+              </span>
+              <span data-i18n="feature2">Planlaşdırma sxemi</span>
+            </li>
+            <li class="oi-feature__item">
+              <span class="oi-feature__icon">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>
+              </span>
+              <span data-i18n="feature3">Material və rəng palitrasısı</span>
+            </li>
+            <li class="oi-feature__item">
+              <span class="oi-feature__icon">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>
+              </span>
+              <span data-i18n="feature4">Mebel seçimi siyahısı</span>
+            </li>
+            <li class="oi-feature__item">
+              <span class="oi-feature__icon">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>
+              </span>
+              <span data-i18n="feature5">Texniki sənədlər</span>
+            </li>
+            <li class="oi-feature__item">
+              <span class="oi-feature__icon">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>
+              </span>
+              <span data-i18n="feature6">Avtorluq nəzarəti</span>
+            </li>
+          </ul>
+          <a href="#contacts" class="oi-btn oi-btn--dark" data-i18n="features_btn">Sifariş Ver</a>
+        </div>
+
+        <div class="oi-features__right">
+          <img src="img/about.svg" alt="Dizayn paketi">
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CONTACTS ===== -->
+  <section class="oi-section mod-contacts" id="contacts">
+    <div class="oi-container">
+      <div class="oi-contacts__inner">
+
+        <div class="oi-contacts__form">
+          <h2 class="oi-section__title" data-i18n="contacts_title">Əlaqə</h2>
+          <form id="contactForm" novalidate>
+            <div class="oi-form__group">
+              <input type="text" id="formName" name="name" placeholder="Ad Soyad" data-i18n-placeholder="form_name"
+                required>
+            </div>
+            <div class="oi-form__group">
+              <input type="tel" id="formPhone" name="phone" placeholder="Telefon nömrəsi"
+                data-i18n-placeholder="form_phone" required>
+            </div>
+            <div class="oi-form__group">
+              <textarea id="formMessage" name="message" placeholder="Mesajınız" data-i18n-placeholder="form_message"
+                rows="5"></textarea>
+            </div>
+            <button type="submit" class="oi-btn oi-btn--primary" data-i18n="form_submit">Mesaj Göndər ✉</button>
+          </form>
+        </div>
+
+        <div class="oi-contacts__info">
+          <div class="oi-contacts__block">
+            <h4 data-i18n="hours_title">İş Saatları</h4>
+            <p data-i18n="hours_weekday">Bazar ertəsi – Cümə: 10:00 – 18:00</p>
+            <p data-i18n="hours_saturday">Şənbə: 10:00 – 15:00</p>
+          </div>
+          <div class="oi-contacts__block">
+            <h4 data-i18n="phone_label">Telefon</h4>
+            <a href="tel:+380971419977" data-setting="contact_phone">+380 97 141 99 77</a>
+          </div>
+          <div class="oi-contacts__block">
+            <h4 data-i18n="email_label">Email</h4>
+            <a href="mailto:office@oksanaivanova.com" data-setting="contact_email">office@oksanaivanova.com</a>
+          </div>
+          <div class="oi-contacts__block">
+            <h4 data-i18n="social_label">Sosial Şəbəkələr</h4>
+            <div class="oi-social oi-social--dark">
+              <a href="#" class="oi-social__link" aria-label="Instagram" data-setting="social_instagram">Instagram</a>
+              <a href="#" class="oi-social__link" aria-label="Facebook" data-setting="social_facebook">Facebook</a>
+              <a href="#" class="oi-social__link" aria-label="Behance" data-setting="social_behance">Behance</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="oi-footer">
+    <div class="oi-container oi-footer__inner">
+      <p class="oi-footer__copy" data-i18n="footer_copy">© 2026 Oksana Ivanova. Bütün hüquqlar qorunur.</p>
+      <div class="oi-lang">
+        <a href="#" class="oi-lang__item active" data-lang="az">AZ</a>
+        <span>|</span>
+        <a href="#" class="oi-lang__item" data-lang="en">EN</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/i18n.js"></script>
+  <script src="js/scripts.js"></script>
+  <script src="js/site-settings.js"></script>
+  <script src="js/portfolio.js"></script>
+</body>
+
+</html>

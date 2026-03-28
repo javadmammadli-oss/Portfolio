@@ -1,0 +1,27 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python3 -:*)",
+      "WebFetch(domain:oksanaivanova.com)",
+      "Bash(python3 gen_pages.py)",
+      "Bash(rm gen_pages.py)",
+      "Bash(python3 gen_proj.py)",
+      "Bash(rm gen_proj.py)",
+      "Bash(python3 gen_en_proj.py)",
+      "Bash(rm gen_en_proj.py)",
+      "Skill(update-config)",
+      "Skill(update-config:*)",
+      "Bash(npx -y @modelcontextprotocol/server-puppeteer --version)",
+      "Bash(npx -y @playwright/mcp --version)",
+      "Read(//c/Users/Javad/**)",
+      "Bash(npx @puppeteer/mcp --version)",
+      "Bash(npm show:*)",
+      "Bash(find C:/Users/Javad/Documents -name *Style_transfer* -o -name *style_transfer*)",
+      "Bash(find C:/Users/Javad -maxdepth 3 -name *.md)"
+    ],
+    "additionalDirectories": [
+      "e:\\Website\\portfolio",
+      "C:\\Users\\Javad"
+    ]
+  }
+}

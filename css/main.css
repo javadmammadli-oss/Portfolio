@@ -1,0 +1,812 @@
+/* =============================================
+   main.css — Style_transfer.md əsasında
+   ============================================= */
+
+/* ---- Nunito Sans (Proxima Nova alternativ) ---- */
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700&display=swap');
+
+/* ---- Reset ---- */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* =============================================
+   CSS DƏYIŞƏNLƏR (Design Tokens)
+   ============================================= */
+:root {
+  --font:          'Nunito Sans', 'Proxima Nova', Arial, sans-serif;
+  --black:         #000000;
+  --white:         #ffffff;
+  --yellow:        #FFFC00;
+  --yellow-hover:  #FFFEB3;
+  --gray-bg:       #f5f5f5;
+  --text-muted:    rgba(0, 0, 0, 0.45);
+  --overlay-light: rgba(0, 0, 0, 0.40);
+  --overlay-dark:  rgba(0, 0, 0, 0.60);
+  --transition:    .3s ease;
+
+  /* Layout */
+  --container-padding: 30px;
+  --section-padding:   60px;
+  --btn-radius:        25px;
+  --btn-height:        50px;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font);
+  font-size: 15px;
+  line-height: 1.4;
+  color: var(--black);
+  background: var(--white);
+}
+
+img { display: block; width: 100%; height: 100%; object-fit: cover; }
+a   { text-decoration: none; color: inherit; transition: border-bottom var(--transition); }
+
+/* =============================================
+   LAYOUT
+   ============================================= */
+
+.oi-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--container-padding);
+}
+
+/* =============================================
+   HEADER — hero üzərindən keçir
+   ============================================= */
+
+.oi-header {
+  position: relative;
+  z-index: 10;
+  margin-bottom: -150px;
+}
+
+.oi-header__inner {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding-top: 50px;
+  padding-bottom: 30px;
+}
+
+/* ---- Logo ---- */
+.oi-logo {
+  display: block;
+  line-height: 0;
+}
+
+.oi-logo img {
+  height: 47px;
+  width: auto;
+  object-fit: contain;
+}
+
+/* ---- Nav ---- */
+.oi-nav {
+  display: flex;
+  align-items: flex-start;
+  gap: 32px;
+  padding-top: 4px;
+}
+
+.oi-nav__contacts {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+.oi-nav__email,
+.oi-nav__phone {
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--white);
+  border-bottom: 1px solid rgba(255, 255, 255, 0);
+  transition: border-bottom var(--transition);
+}
+
+.oi-nav__email:hover,
+.oi-nav__phone:hover {
+  border-bottom: 1px solid var(--white);
+}
+
+.oi-nav__right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
+}
+
+/* ---- Lang ---- */
+.oi-lang {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--white);
+}
+
+.oi-lang__item { opacity: 0.5; transition: opacity var(--transition); }
+.oi-lang__item.active,
+.oi-lang__item:hover { opacity: 1; }
+
+/* ---- Social ---- */
+.oi-social { display: flex; gap: 12px; align-items: center; }
+
+.oi-social__link {
+  color: var(--white);
+  opacity: 0.8;
+  display: flex;
+  align-items: center;
+  transition: opacity var(--transition);
+}
+.oi-social__link:hover { opacity: 1; }
+
+.oi-social--dark .oi-social__link {
+  color: var(--black);
+  font-size: 13px;
+  font-weight: 600;
+  opacity: 0.6;
+}
+.oi-social--dark .oi-social__link:hover { opacity: 1; }
+
+/* =============================================
+   BUTTONS
+   ============================================= */
+
+.oi-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--btn-height);
+  padding: 0 35px;
+  font-family: var(--font);
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1;
+  border-radius: var(--btn-radius);
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color var(--transition), border-color var(--transition), color var(--transition);
+}
+.oi-btn:focus { outline: none; }
+
+/* Primary — sarı düymə */
+.oi-btn--primary {
+  background-color: var(--yellow);
+  color: var(--black);
+}
+.oi-btn--primary:hover { background-color: var(--yellow-hover); }
+
+/* Outline / Ghost — şəffaf, ağ kənar (qaranlıq fonlarda) */
+.oi-btn--outline {
+  background-color: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: var(--white);
+}
+.oi-btn--outline:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-color: transparent;
+}
+
+/* Dark — qara düymə */
+.oi-btn--dark {
+  background-color: var(--black);
+  color: var(--white);
+  border: none;
+}
+.oi-btn--dark:hover { background-color: #333333; }
+
+/* =============================================
+   HERO
+   ============================================= */
+
+.mod-hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  background-image: url('../img/hero/hero-bg.jpg');
+  background-size: cover;
+  background-position: center;
+}
+
+.oi-hero__overlay {
+  position: absolute;
+  inset: 0;
+  background-color: var(--overlay-light);
+}
+
+.oi-hero__content {
+  position: relative;
+  z-index: 1;
+  color: var(--white);
+  padding-top: 130px;
+  padding-bottom: 120px;
+}
+
+.oi-hero__title {
+  font-size: 60px;
+  font-weight: 300;
+  line-height: 0.9;
+  margin-bottom: 20px;
+  max-width: 600px;
+  color: var(--white);
+}
+
+.oi-hero__sub {
+  font-size: 15px;
+  color: var(--white);
+  opacity: 0.85;
+  margin-bottom: 40px;
+  max-width: 550px;
+  line-height: 1.6;
+}
+
+.oi-hero__btns {
+  display: flex;
+  gap: 37px;
+  flex-wrap: wrap;
+}
+
+/* =============================================
+   PORTFOLIO
+   ============================================= */
+
+.mod-portfolio {
+  padding: var(--section-padding) 0 0;
+}
+
+.mod-portfolio__header {
+  text-align: center;
+  padding-bottom: 40px;
+}
+
+.oi-section__title {
+  font-size: 48px;
+  font-weight: 300;
+  margin-bottom: 15px;
+  color: var(--black);
+}
+
+.oi-section__desc {
+  font-size: 15px;
+  color: var(--black);
+  max-width: 700px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+
+/* ---- Portfolio Grid ---- */
+.oi-grid-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+}
+
+.oi-thumb {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  height: 390px;
+  cursor: pointer;
+  background: #111;
+}
+
+.oi-thumb__pic {
+  position: absolute;
+  inset: 0;
+}
+
+.oi-thumb__pic img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1);
+  transition: transform var(--transition);
+}
+
+.oi-thumb__box {
+  position: absolute;
+  inset: 0;
+  background-color: var(--overlay-light);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 32px 40px;
+  color: var(--white);
+  transition: background-color var(--transition);
+}
+
+@media (min-width: 769px) {
+  .oi-thumb__box {
+    background-color: rgba(0, 0, 0, 0);
+    opacity: 0;
+    transition: opacity var(--transition), background-color var(--transition);
+  }
+  .oi-thumb:hover .oi-thumb__box {
+    opacity: 1;
+    background-color: var(--overlay-dark);
+  }
+  .oi-thumb:hover .oi-thumb__pic img { transform: scale(1.06); }
+}
+
+.oi-thumb__title {
+  font-size: 28px;
+  font-weight: 300;
+  letter-spacing: 0.04em;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.oi-thumb__area {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--yellow);
+  margin-bottom: 2px;
+  order: -2;
+}
+
+.oi-thumb__location {
+  font-size: 13px;
+  opacity: 0.75;
+  margin-bottom: 8px;
+  order: -1;
+}
+
+/* =============================================
+   SERVICES — qaranlıq fon, bg şəkil, 3-sütun
+   ============================================= */
+
+.mod-services {
+  position: relative;
+  padding: var(--section-padding) 0;
+  background-image: url('../img/darkside/02.jpg');
+  background-size: cover;
+  background-position: center;
+  color: var(--white);
+}
+
+.oi-services__overlay {
+  position: absolute;
+  inset: 0;
+  background-color: var(--overlay-dark);
+}
+
+.oi-services__content {
+  position: relative;
+  z-index: 1;
+}
+
+.mod-services .oi-section__title {
+  text-align: center;
+  margin-bottom: 50px;
+  color: var(--white);
+}
+
+.oi-services__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px 30px;
+  text-align: center;
+}
+
+.oi-service__card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  color: var(--white);
+}
+
+.oi-service__icon {
+  width: 50px;
+  height: 50px;
+  margin: 0 auto 20px;
+  color: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.oi-service__title {
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 12px;
+  color: var(--white);
+}
+
+.oi-service__desc {
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.6;
+}
+
+.oi-services__cta {
+  margin-top: 50px;
+  text-align: center;
+}
+
+/* =============================================
+   PROCESS — ağ fon, horizontal bar-lar
+   ============================================= */
+
+.mod-process {
+  padding: var(--section-padding) 0;
+  background: var(--white);
+}
+
+.mod-process .oi-section__title {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.mod-process .oi-section__desc {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.oi-process {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0 20px;
+}
+
+.oi-process__label {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--black);
+  margin-bottom: 12px;
+}
+
+.oi-process__bar {
+  height: 6px;
+  border-radius: 0;
+  margin-bottom: 14px;
+}
+
+.oi-process__steps {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.oi-process__steps span {
+  font-size: 13px;
+  color: var(--black);
+  line-height: 1.4;
+}
+
+/* =============================================
+   ABOUT / QUOTE — qaranlıq fon, böyük sitat
+   ============================================= */
+
+.mod-about {
+  position: relative;
+  padding: 100px 0;
+  background-image: url('../img/darkside/05.jpg');
+  background-size: cover;
+  background-position: center;
+}
+
+.oi-about__overlay {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.55);
+}
+
+.oi-about__content {
+  position: relative;
+  z-index: 1;
+}
+
+.oi-about__quote {
+  font-size: 36px;
+  font-weight: 300;
+  color: var(--white);
+  max-width: 700px;
+  line-height: 1.3;
+  margin-bottom: 20px;
+}
+
+.oi-about__desc {
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.85);
+  max-width: 500px;
+  line-height: 1.6;
+}
+
+/* =============================================
+   WHAT YOU GET — açıq boz fon
+   ============================================= */
+
+.mod-features {
+  background: var(--gray-bg);
+  padding: var(--section-padding) 0;
+}
+
+.oi-features__inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+
+.oi-features__title {
+  font-size: 36px;
+  font-weight: 300;
+  color: var(--black);
+  margin-bottom: 20px;
+}
+
+.oi-features__desc {
+  font-size: 15px;
+  color: var(--black);
+  max-width: 550px;
+  margin-bottom: 32px;
+  line-height: 1.6;
+}
+
+.oi-features__list {
+  list-style: none;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px 40px;
+  margin-bottom: 40px;
+}
+
+.oi-feature__item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.oi-feature__icon {
+  flex-shrink: 0;
+  color: var(--black);
+  opacity: 0.7;
+  margin-top: 2px;
+}
+
+.oi-feature__item span:last-child {
+  font-size: 15px;
+  font-weight: 400;
+  color: var(--black);
+  line-height: 1.4;
+}
+
+.oi-features__right {
+  aspect-ratio: 4/5;
+  overflow: hidden;
+}
+
+.oi-features__right img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* =============================================
+   CONTACTS — ağ fon, minimalist form
+   ============================================= */
+
+.mod-contacts {
+  padding: var(--section-padding) 0;
+  background: var(--white);
+}
+
+.oi-contacts__inner {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: 80px;
+}
+
+.oi-contacts__form .oi-section__title {
+  margin-bottom: 40px;
+}
+
+.oi-form__group { margin-bottom: 20px; }
+
+.oi-form__group input,
+.oi-form__group textarea {
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  background: transparent;
+  font-family: var(--font);
+  font-size: 18px;
+  font-weight: 400;
+  padding: 8px 0;
+  outline: none;
+  transition: border-bottom var(--transition);
+  resize: none;
+  color: var(--black);
+}
+
+.oi-form__group textarea {
+  height: 120px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  padding: 10px 12px;
+  font-size: 15px;
+}
+
+.oi-form__group input:focus   { border-bottom: 2px solid var(--black); }
+.oi-form__group textarea:focus { border-color: var(--black); }
+.oi-form__group input.error    { border-bottom-color: #e74c3c; }
+
+.oi-form__error {
+  display: block;
+  font-size: 12px;
+  color: #e74c3c;
+  margin-top: 4px;
+}
+
+.oi-form__success {
+  font-size: 15px;
+  color: #27ae60;
+  padding: 16px 0;
+}
+
+/* Submit düymə — qara */
+.oi-contacts__form .oi-btn {
+  margin-top: 12px;
+  background-color: var(--black);
+  color: var(--white);
+  border-radius: var(--btn-radius);
+}
+.oi-contacts__form .oi-btn:hover { background-color: #333333; }
+
+/* Sağ tərəf */
+.oi-contacts__info { padding-top: 72px; }
+
+.oi-contacts__block { margin-bottom: 28px; }
+
+.oi-contacts__block h4 {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+
+.oi-contacts__block p,
+.oi-contacts__block a {
+  font-size: 15px;
+  color: var(--black);
+  line-height: 1.6;
+}
+
+.oi-contacts__block a[href^="tel"] {
+  font-size: 24px;
+  font-weight: 600;
+  display: block;
+}
+
+.oi-contacts__block a[href^="mailto"] {
+  font-size: 18px;
+  font-weight: 600;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+  transition: border-color var(--transition);
+}
+.oi-contacts__block a[href^="mailto"]:hover {
+  border-bottom-color: var(--black);
+}
+
+/* =============================================
+   FOOTER
+   ============================================= */
+
+.oi-footer {
+  background: var(--black);
+  padding: 40px 0;
+}
+
+.oi-footer__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.oi-footer__copy {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.oi-footer .oi-lang { color: rgba(255, 255, 255, 0.4); }
+.oi-footer .oi-lang__item { color: rgba(255, 255, 255, 0.4); }
+.oi-footer .oi-lang__item.active { color: var(--white); opacity: 1; }
+
+/* =============================================
+   SCROLL ANİMASİYALAR
+   ============================================= */
+
+.anim-fade {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.anim-fade.is-visible { opacity: 1; transform: translateY(0); }
+
+.oi-service__card.anim-fade:nth-child(2) { transition-delay: 0.1s; }
+.oi-service__card.anim-fade:nth-child(3) { transition-delay: 0.2s; }
+.oi-thumb.anim-fade:nth-child(even)       { transition-delay: 0.12s; }
+
+/* =============================================
+   RESPONSİV
+   ============================================= */
+
+/* --- 1025px-dən kiçik --- */
+@media (max-width: 1024px) {
+  .oi-process { grid-template-columns: repeat(3, 1fr); gap: 30px; }
+}
+
+/* --- Tablet: max 768px --- */
+@media (max-width: 768px) {
+  .oi-container { padding: 0 20px; }
+
+  .oi-header { margin-bottom: -100px; }
+  .oi-header__inner { padding-top: 24px; }
+  .oi-nav__contacts { display: none; }
+
+  /* Tipografiya */
+  .oi-hero__title       { font-size: 36px; }
+  .oi-section__title    { font-size: 32px; }
+  .oi-about__quote      { font-size: 26px; }
+  .oi-features__title   { font-size: 26px; }
+
+  /* Düymələr tam en */
+  .oi-btn { width: 100%; }
+  .oi-hero__btns { flex-direction: column; gap: 12px; }
+
+  /* Grid-lər 1 sütuna */
+  .oi-grid-row          { grid-template-columns: 1fr; }
+  .oi-services__grid    { grid-template-columns: 1fr; }
+  .oi-process           { grid-template-columns: 1fr 1fr; gap: 24px; }
+  .oi-features__inner   { grid-template-columns: 1fr; gap: 40px; }
+  .oi-features__list    { grid-template-columns: 1fr; }
+  .oi-contacts__inner   { grid-template-columns: 1fr; gap: 40px; }
+
+  .oi-thumb { height: 260px; }
+  .oi-thumb__box { opacity: 1; background-color: var(--overlay-light); }
+
+  .oi-features__right { aspect-ratio: 3/2; }
+  .oi-contacts__info { padding-top: 0; }
+
+  .oi-footer__inner {
+    flex-direction: column;
+    gap: 12px;
+    text-align: center;
+  }
+
+  .mod-portfolio,
+  .mod-services,
+  .mod-process,
+  .mod-about,
+  .mod-features,
+  .mod-contacts { padding: 48px 0; }
+
+  .mod-portfolio { padding-bottom: 0; }
+  .mod-about { padding: 60px 0; }
+}
+
+/* --- Kiçik mobil: max 576px --- */
+@media (max-width: 576px) {
+  .oi-hero__title    { font-size: 28px; }
+  .oi-section__title { font-size: 26px; }
+  .oi-process        { grid-template-columns: 1fr; }
+}
+
+/* --- Large Desktop: 1441px+ --- */
+@media (min-width: 1441px) {
+  .oi-container { max-width: 1400px; }
+}

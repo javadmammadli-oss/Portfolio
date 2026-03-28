@@ -1,0 +1,1429 @@
+<!DOCTYPE html>
+<html lang="az">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Panel</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    :root {
+      --bg:          #f0f4f8;
+      --surface:     #ffffff;
+      --surface2:    #f8fafc;
+      --border:      #e2e8f0;
+      --accent:      #1d4ed8;
+      --accent-hover:#1e40af;
+      --accent-dim:  rgba(29, 78, 216, 0.08);
+      --text:        #1e293b;
+      --text-muted:  #94a3b8;
+      --danger:      #ef4444;
+      --danger-dim:  rgba(239,68,68,0.08);
+      --success:     #16a34a;
+      --success-dim: rgba(22,163,74,0.1);
+      --sidebar-bg:  #1e3a5f;
+      --sidebar-hover: rgba(255,255,255,0.08);
+      --sidebar-active:#2563eb;
+      --sidebar-text:  rgba(255,255,255,0.65);
+      --sidebar-w:   220px;
+      --font: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      --radius: 8px;
+      --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
+      --shadow-md: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font);
+      font-size: 13px;
+      min-height: 100vh;
+    }
+
+    /* ─── LOGIN ─── */
+    #login-screen {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 100%);
+    }
+
+    .login-box {
+      width: 380px;
+      padding: 40px;
+      background: var(--surface);
+      border-radius: 12px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+    }
+
+    .login-logo {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+
+    .login-title {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+
+    .login-sub {
+      color: var(--text-muted);
+      font-size: 13px;
+      margin-bottom: 28px;
+    }
+
+    .field { margin-bottom: 16px; }
+
+    .field label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+
+    .field input {
+      width: 100%;
+      padding: 10px 14px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text);
+      font-family: var(--font);
+      font-size: 13px;
+      outline: none;
+      transition: border 0.2s, box-shadow 0.2s;
+    }
+
+    .field input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-dim);
+    }
+
+    .btn-primary {
+      width: 100%;
+      padding: 11px;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-family: var(--font);
+      font-size: 13px;
+      font-weight: 600;
+      transition: background 0.15s;
+      margin-top: 8px;
+    }
+
+    .btn-primary:hover { background: var(--accent-hover); }
+    .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    .error-msg {
+      color: var(--danger);
+      font-size: 12px;
+      margin-top: 10px;
+      min-height: 16px;
+    }
+
+    /* ─── LAYOUT ─── */
+    #app { display: none; min-height: 100vh; }
+
+    .sidebar {
+      position: fixed;
+      left: 0; top: 0; bottom: 0;
+      width: var(--sidebar-w);
+      background: var(--sidebar-bg);
+      display: flex;
+      flex-direction: column;
+      z-index: 100;
+    }
+
+    .sidebar-brand {
+      padding: 22px 20px 18px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .sidebar-brand .brand-name {
+      font-size: 14px;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: 0.3px;
+    }
+
+    .sidebar-brand span {
+      display: block;
+      font-size: 11px;
+      color: var(--sidebar-text);
+      margin-top: 2px;
+    }
+
+    .nav-section {
+      padding: 20px 16px 6px;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      color: rgba(255,255,255,0.35);
+      text-transform: uppercase;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 12px;
+      margin: 2px 8px;
+      cursor: pointer;
+      border-radius: 6px;
+      transition: all 0.15s;
+      color: var(--sidebar-text);
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    .nav-item:hover {
+      background: var(--sidebar-hover);
+      color: #fff;
+    }
+
+    .nav-item.active {
+      background: var(--sidebar-active);
+      color: #fff;
+    }
+
+    .nav-item svg { width: 16px; height: 16px; flex-shrink: 0; }
+
+    .sidebar-bottom {
+      margin-top: auto;
+      padding: 12px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .sidebar-user {
+      padding: 8px 10px;
+      font-size: 11px;
+      color: var(--sidebar-text);
+      margin-bottom: 6px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .logout-btn {
+      width: 100%;
+      padding: 9px 12px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 6px;
+      color: var(--sidebar-text);
+      font-family: var(--font);
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.15s;
+      text-align: left;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .logout-btn:hover {
+      background: rgba(239,68,68,0.15);
+      border-color: rgba(239,68,68,0.3);
+      color: #fca5a5;
+    }
+
+    /* ─── TOPBAR ─── */
+    .topbar {
+      position: fixed;
+      top: 0;
+      left: var(--sidebar-w);
+      right: 0;
+      height: 56px;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      padding: 0 28px;
+      z-index: 90;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+
+    .topbar-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* ─── MAIN ─── */
+    .main {
+      margin-left: var(--sidebar-w);
+      padding: 80px 28px 28px;
+      min-height: 100vh;
+    }
+
+    .page-header {
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .page-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .page-subtitle {
+      color: var(--text-muted);
+      font-size: 12px;
+      margin-top: 3px;
+    }
+
+    /* ─── BUTTONS ─── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-family: var(--font);
+      font-size: 12px;
+      font-weight: 600;
+      transition: all 0.15s;
+      white-space: nowrap;
+    }
+
+    .btn-sm { padding: 5px 11px; font-size: 12px; }
+
+    .btn-accent {
+      background: var(--accent);
+      color: #fff;
+    }
+    .btn-accent:hover { background: var(--accent-hover); }
+
+    .btn-outline {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--accent);
+    }
+    .btn-outline:hover {
+      background: var(--accent-dim);
+      border-color: var(--accent);
+    }
+
+    .btn-danger {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--danger);
+    }
+    .btn-danger:hover {
+      background: var(--danger-dim);
+      border-color: var(--danger);
+    }
+
+    /* ─── TABLE ─── */
+    .table-wrap {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    table { width: 100%; border-collapse: collapse; }
+
+    thead th {
+      padding: 11px 16px;
+      text-align: left;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      background: var(--surface2);
+      border-bottom: 1px solid var(--border);
+    }
+
+    tbody tr {
+      border-bottom: 1px solid var(--border);
+      transition: background 0.1s;
+    }
+
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:hover { background: #f8faff; }
+
+    td {
+      padding: 13px 16px;
+      font-size: 13px;
+      vertical-align: middle;
+      color: var(--text);
+    }
+
+    .td-actions {
+      display: flex;
+      gap: 6px;
+      justify-content: flex-end;
+    }
+
+    /* ─── BADGE ─── */
+    .badge {
+      display: inline-block;
+      padding: 3px 10px;
+      font-size: 11px;
+      font-weight: 600;
+      border-radius: 20px;
+    }
+
+    .badge-yes {
+      background: var(--success-dim);
+      color: var(--success);
+    }
+
+    .badge-no {
+      background: var(--surface2);
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+    }
+
+    /* ─── MODAL ─── */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15,23,42,0.5);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 200;
+      backdrop-filter: blur(4px);
+    }
+
+    .modal-overlay.open { display: flex; }
+
+    .modal {
+      background: var(--surface);
+      border-radius: 12px;
+      box-shadow: var(--shadow-md);
+      width: 540px;
+      max-width: 95vw;
+      max-height: 90vh;
+      overflow-y: auto;
+      border: 1px solid var(--border);
+    }
+
+    .modal-header {
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .modal-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .modal-close {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 16px;
+      line-height: 1;
+      padding: 4px 8px;
+      transition: all 0.15s;
+    }
+
+    .modal-close:hover {
+      background: var(--danger-dim);
+      border-color: var(--danger);
+      color: var(--danger);
+    }
+
+    .modal-body { padding: 24px; }
+
+    .modal-footer {
+      padding: 16px 24px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      gap: 8px;
+      justify-content: flex-end;
+      background: var(--surface2);
+      border-radius: 0 0 12px 12px;
+    }
+
+    /* ─── FORM ─── */
+    .form-group { margin-bottom: 16px; }
+
+    .form-label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+
+    .form-input,
+    .form-select,
+    .form-textarea {
+      width: 100%;
+      padding: 8px 12px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text);
+      font-family: var(--font);
+      font-size: 13px;
+      outline: none;
+      transition: border 0.2s, box-shadow 0.2s;
+    }
+
+    .form-input:focus,
+    .form-select:focus,
+    .form-textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-dim);
+    }
+
+    .form-textarea { min-height: 90px; resize: vertical; }
+    .form-select option { background: var(--surface); }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .form-check {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+    }
+
+    .form-check input[type=checkbox] {
+      width: 16px;
+      height: 16px;
+      accent-color: var(--accent);
+      cursor: pointer;
+    }
+
+    .form-check span { font-size: 13px; }
+
+    /* ─── IMAGE UPLOAD ─── */
+    .drop-zone {
+      border: 2px dashed var(--border);
+      border-radius: 8px;
+      padding: 24px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      color: var(--text-muted);
+      font-size: 13px;
+      background: var(--surface2);
+    }
+
+    .drop-zone:hover, .drop-zone.drag-over {
+      border-color: var(--accent);
+      background: var(--accent-dim);
+      color: var(--accent);
+    }
+
+    .drop-zone input { display: none; }
+
+    .image-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .image-thumb {
+      position: relative;
+      aspect-ratio: 1;
+      overflow: hidden;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+    }
+
+    .image-thumb img { width: 100%; height: 100%; object-fit: cover; }
+
+    .image-thumb-del {
+      position: absolute;
+      top: 4px; right: 4px;
+      background: rgba(239,68,68,0.85);
+      border: none;
+      border-radius: 4px;
+      color: #fff;
+      cursor: pointer;
+      padding: 2px 6px;
+      font-size: 13px;
+      line-height: 1;
+      opacity: 0;
+      transition: opacity 0.15s;
+    }
+
+    .image-thumb:hover .image-thumb-del { opacity: 1; }
+
+    /* ─── STATS ─── */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+
+    .stat-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px 22px;
+      box-shadow: var(--shadow);
+    }
+
+    .stat-num {
+      font-size: 30px;
+      font-weight: 800;
+      color: var(--accent);
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-muted);
+      margin-top: 6px;
+    }
+
+    /* ─── UPLOAD PROGRESS ─── */
+    .upload-progress {
+      height: 4px;
+      background: var(--border);
+      border-radius: 4px;
+      margin-top: 8px;
+      overflow: hidden;
+      display: none;
+    }
+
+    .upload-progress-bar {
+      height: 100%;
+      background: var(--accent);
+      width: 0%;
+      border-radius: 4px;
+      transition: width 0.3s;
+    }
+
+    /* ─── TOAST ─── */
+    #toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      padding: 12px 20px;
+      font-size: 13px;
+      font-weight: 500;
+      border-radius: 8px;
+      z-index: 999;
+      transform: translateY(60px);
+      opacity: 0;
+      transition: all 0.3s;
+      box-shadow: var(--shadow-md);
+    }
+
+    #toast.show { transform: translateY(0); opacity: 1; }
+
+    #toast.success {
+      background: #f0fdf4;
+      border: 1px solid #86efac;
+      color: var(--success);
+    }
+
+    #toast.error {
+      background: #fef2f2;
+      border: 1px solid #fca5a5;
+      color: var(--danger);
+    }
+
+    .empty-state {
+      padding: 56px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 13px;
+    }
+
+    .empty-state .empty-icon { font-size: 36px; margin-bottom: 12px; }
+
+    .loading {
+      padding: 32px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 13px;
+    }
+
+    /* ─── SETTINGS LANG TABS ─── */
+    .lang-tabs {
+      display: inline-flex;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 3px;
+      margin-bottom: 20px;
+      gap: 2px;
+    }
+
+    .lang-tab {
+      padding: 6px 20px;
+      border: none;
+      border-radius: 6px;
+      background: transparent;
+      color: var(--text-muted);
+      font-family: var(--font);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .lang-tab.active {
+      background: var(--surface);
+      color: var(--accent);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+
+    .lang-tab:hover:not(.active) { color: var(--text); }
+
+    .en-group { display: none; }
+
+    /* cover preview */
+    .cover-preview {
+      width: 100%;
+      aspect-ratio: 16/9;
+      object-fit: cover;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      margin-top: 8px;
+      display: none;
+      background: var(--surface2);
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ══════════════════════════════════════════════════
+     LOGIN
+══════════════════════════════════════════════════ -->
+  <div id="login-screen">
+    <div class="login-box">
+      <div class="login-logo">Admin Panel</div>
+      <div class="login-title">Xoş gəldiniz</div>
+      <div class="login-sub">Davam etmək üçün daxil olun</div>
+      <div class="field">
+        <label>Email</label>
+        <input type="email" id="login-email" placeholder="admin@example.com" />
+      </div>
+      <div class="field">
+        <label>Şifrə</label>
+        <input type="password" id="login-pass" placeholder="••••••••" />
+      </div>
+      <button class="btn-primary" id="login-btn" onclick="doLogin()">Daxil ol</button>
+      <div class="error-msg" id="login-error"></div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════
+     MAIN APP
+══════════════════════════════════════════════════ -->
+  <div id="app">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <div class="brand-name">Portfolio CMS</div>
+        <span>Admin Panel</span>
+      </div>
+      <nav style="flex:1; overflow-y:auto; padding: 8px 0;">
+        <div class="nav-section">Əsas</div>
+        <div class="nav-item active" onclick="navigate('dashboard')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/>
+            <rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>
+          </svg>
+          Dashboard
+        </div>
+        <div class="nav-section">Kontent</div>
+        <div class="nav-item" onclick="navigate('categories')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 6h16M4 12h8M4 18h12"/>
+          </svg>
+          Kateqoriyalar
+        </div>
+        <div class="nav-item" onclick="navigate('projects')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="18" height="14" rx="2"/><path d="M7 21h10M12 17v4"/>
+          </svg>
+          Layihələr
+        </div>
+        <div class="nav-section">Sistem</div>
+        <div class="nav-item" onclick="navigate('settings')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="3"/>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+          </svg>
+          Ayarlar
+        </div>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="sidebar-user" id="user-email-display"></div>
+        <button class="logout-btn" onclick="doLogout()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/>
+          </svg>
+          Çıxış
+        </button>
+      </div>
+    </aside>
+
+    <!-- TOPBAR -->
+    <div class="topbar">
+      <span class="topbar-title" id="topbar-title">Dashboard</span>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <main class="main" id="main-content"></main>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════
+     MODALS
+══════════════════════════════════════════════════ -->
+
+  <!-- Category Modal -->
+  <div class="modal-overlay" id="cat-modal">
+    <div class="modal">
+      <div class="modal-header">
+        <span class="modal-title" id="cat-modal-title">Kateqoriya</span>
+        <button class="modal-close" onclick="closeModal('cat-modal')">×</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label">Ad *</label>
+          <input class="form-input" id="cat-name" placeholder="Kateqoriya adı" oninput="autoSlug(this,'cat-slug')" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Slug *</label>
+          <input class="form-input" id="cat-slug" placeholder="category-slug" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Açıqlama</label>
+          <textarea class="form-textarea" id="cat-desc" placeholder="Qısa açıqlama..."></textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Sıra</label>
+          <input class="form-input" id="cat-order" type="number" placeholder="0" />
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" onclick="closeModal('cat-modal')">Ləğv et</button>
+        <button class="btn btn-accent" onclick="saveCat()">Saxla</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Project Modal -->
+  <div class="modal-overlay" id="proj-modal">
+    <div class="modal" style="width:620px">
+      <div class="modal-header">
+        <span class="modal-title" id="proj-modal-title">Layihə</span>
+        <button class="modal-close" onclick="closeModal('proj-modal')">×</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label">Başlıq *</label>
+          <input class="form-input" id="proj-title" placeholder="Layihə adı" oninput="autoSlug(this,'proj-slug')" />
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Slug *</label>
+            <input class="form-input" id="proj-slug" placeholder="project-slug" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Kateqoriya</label>
+            <select class="form-select" id="proj-cat"></select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Müştəri</label>
+            <input class="form-input" id="proj-client" placeholder="Müştəri adı" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">İl</label>
+            <input class="form-input" id="proj-year" type="number" placeholder="2024" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Açıqlama</label>
+          <textarea class="form-textarea" id="proj-desc" placeholder="Qısa açıqlama..."></textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Kontent (HTML/Markdown)</label>
+          <textarea class="form-textarea" id="proj-content" style="min-height:80px"
+            placeholder="Ətraflı mətn..."></textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Üz Şəkil (Cover)</label>
+          <div class="drop-zone" onclick="document.getElementById('cover-file').click()" id="cover-drop">
+            <div>🖼 Şəkil seçin və ya buraya atın</div>
+            <input type="file" id="cover-file" accept="image/*" onchange="uploadCover(this)" />
+          </div>
+          <div class="upload-progress" id="cover-progress">
+            <div class="upload-progress-bar" id="cover-bar"></div>
+          </div>
+          <img id="cover-preview" class="cover-preview" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Qalereya Şəkilləri</label>
+          <div class="drop-zone" onclick="document.getElementById('gallery-files').click()" id="gallery-drop">
+            <div>🖼 Şəkillər seçin (çoxlu)</div>
+            <input type="file" id="gallery-files" accept="image/*" multiple onchange="uploadGallery(this)" />
+          </div>
+          <div class="upload-progress" id="gallery-progress">
+            <div class="upload-progress-bar" id="gallery-bar"></div>
+          </div>
+          <div class="image-grid" id="gallery-grid"></div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Sıra</label>
+          <input class="form-input" id="proj-order" type="number" placeholder="0" />
+        </div>
+        <div class="form-group">
+          <label class="form-check">
+            <input type="checkbox" id="proj-published" />
+            <span>Yayımlanıb (saytda görünsün)</span>
+          </label>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" onclick="closeModal('proj-modal')">Ləğv et</button>
+        <button class="btn btn-accent" onclick="saveProj()">Saxla</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div id="toast"></div>
+
+  <!-- ══════════════════════════════════════════════════
+     JAVASCRIPT
+══════════════════════════════════════════════════ -->
+  <script>
+    // ─── CONFIG ─────────────────────────────────────────
+    const SUPABASE_URL = 'https://msvsotdirksefmfvvzua.supabase.co';
+    const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1zdnNvdGRpcmtzZWZtZnZ2enVhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ1NDMxODgsImV4cCI6MjA5MDExOTE4OH0.yoO4pIXkw-PkPPOV5WfK9DTQvs8I7FNYcyvuXafgymk'; // ← Settings > API Keys > anon public key
+    // ─────────────────────────────────────────────────────
+
+    const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+    let currentPage = 'dashboard';
+    let editingId = null;
+    let currentProjectId = null;
+    let currentCoverUrl = null;
+    let currentGalleryImages = []; // {id, url}
+
+    // ─── AUTH ─────────────────────────────────────────
+    async function doLogin() {
+      const email = document.getElementById('login-email').value.trim();
+      const pass = document.getElementById('login-pass').value;
+      const btn = document.getElementById('login-btn');
+      const err = document.getElementById('login-error');
+      if (!email || !pass) { err.textContent = 'Email və şifrə daxil edin'; return; }
+      btn.disabled = true; btn.textContent = 'Yüklənir...'; err.textContent = '';
+      const { error } = await sb.auth.signInWithPassword({ email, password: pass });
+      btn.disabled = false; btn.textContent = 'Daxil ol';
+      if (error) { err.textContent = error.message; return; }
+      showApp();
+    }
+
+    document.getElementById('login-pass').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
+
+    async function doLogout() {
+      await sb.auth.signOut();
+      document.getElementById('app').style.display = 'none';
+      document.getElementById('login-screen').style.display = 'flex';
+    }
+
+    async function checkSession() {
+      const { data: { session } } = await sb.auth.getSession();
+      if (session) showApp();
+    }
+
+    function showApp() {
+      sb.auth.getUser().then(({ data: { user } }) => {
+        document.getElementById('user-email-display').textContent = user?.email || '';
+      });
+      document.getElementById('login-screen').style.display = 'none';
+      document.getElementById('app').style.display = 'block';
+      navigate('dashboard');
+    }
+
+    // ─── NAVIGATION ───────────────────────────────────
+    function navigate(page) {
+      currentPage = page;
+      document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+      const navMap = { dashboard: 0, categories: 1, projects: 2, settings: 3 };
+      const navEl = document.querySelectorAll('.nav-item')[navMap[page]];
+      if (navEl) navEl.classList.add('active');
+      const titles = { dashboard: 'Dashboard', categories: 'Kateqoriyalar', projects: 'Layihələr', settings: 'Ayarlar' };
+      const tb = document.getElementById('topbar-title');
+      if (tb) tb.textContent = titles[page] || '';
+      const pages = { dashboard: renderDashboard, categories: renderCategories, projects: renderProjects, settings: renderSettings };
+      (pages[page] || renderDashboard)();
+    }
+
+    // ─── DASHBOARD ────────────────────────────────────
+    async function renderDashboard() {
+      setMain('<div class="loading">Yüklənir...</div>');
+      const [catRes, projRes, pubRes] = await Promise.all([
+        sb.from('categories').select('id', { count: 'exact', head: true }),
+        sb.from('projects').select('id', { count: 'exact', head: true }),
+        sb.from('projects').select('id', { count: 'exact', head: true }).eq('is_published', true),
+      ]);
+      const imgRes = await sb.from('project_images').select('id', { count: 'exact', head: true });
+      setMain(`
+    <div class="page-header">
+      <div><div class="page-title">Dashboard</div><div class="page-subtitle">Ümumi baxış</div></div>
+    </div>
+    <div class="stats-grid">
+      <div class="stat-card"><div class="stat-num">${catRes.count || 0}</div><div class="stat-label">Kateqoriya</div></div>
+      <div class="stat-card"><div class="stat-num">${projRes.count || 0}</div><div class="stat-label">Layihə</div></div>
+      <div class="stat-card"><div class="stat-num">${pubRes.count || 0}</div><div class="stat-label">Yayımlanmış</div></div>
+      <div class="stat-card"><div class="stat-num">${imgRes.count || 0}</div><div class="stat-label">Şəkil</div></div>
+    </div>
+    <div style="background:var(--surface);border:1px solid var(--border);padding:28px 32px;">
+      <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted);margin-bottom:16px;">Sürətli Keçidlər</div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;">
+        <button class="btn btn-accent" onclick="navigate('categories')">+ Kateqoriya</button>
+        <button class="btn btn-accent" onclick="navigate('projects')">+ Layihə</button>
+        <button class="btn btn-outline" onclick="navigate('settings')">Ayarlar</button>
+      </div>
+    </div>
+  `);
+    }
+
+    // ─── CATEGORIES ───────────────────────────────────
+    async function renderCategories() {
+      setMain('<div class="loading">Yüklənir...</div>');
+      const { data, error } = await sb.from('categories').select('*').order('sort_order');
+      if (error) { setMain('<div class="empty-state">Xəta: ' + error.message + '</div>'); return; }
+      let rows = data.length ? data.map(c => `
+    <tr>
+      <td>${escHtml(c.name)}</td>
+      <td style="color:var(--text-muted)">${escHtml(c.slug)}</td>
+      <td style="color:var(--text-muted)">${escHtml(c.description || '—')}</td>
+      <td>${c.sort_order}</td>
+      <td><div class="td-actions">
+        <button class="btn btn-sm btn-outline" onclick="editCat('${c.id}')">Düzəliş</button>
+        <button class="btn btn-sm btn-danger" onclick="delCat('${c.id}','${escHtml(c.name)}')">Sil</button>
+      </div></td>
+    </tr>`).join('') : '<tr><td colspan="5"><div class="empty-state"><div class="empty-icon">📂</div>Hələ kateqoriya yoxdur</div></td></tr>';
+      setMain(`
+    <div class="page-header">
+      <div><div class="page-title">Kateqoriyalar</div><div class="page-subtitle">${data.length} kateqoriya</div></div>
+      <button class="btn btn-accent" onclick="openCatModal()">+ Yeni Kateqoriya</button>
+    </div>
+    <div class="table-wrap">
+      <table><thead><tr><th>Ad</th><th>Slug</th><th>Açıqlama</th><th>Sıra</th><th style="text-align:right">Əməliyyat</th></tr></thead>
+      <tbody>${rows}</tbody></table>
+    </div>`);
+    }
+
+    function openCatModal(id) {
+      editingId = id || null;
+      document.getElementById('cat-modal-title').textContent = id ? 'Kateqoriyanı Düzəlt' : 'Yeni Kateqoriya';
+      document.getElementById('cat-name').value = '';
+      document.getElementById('cat-slug').value = '';
+      document.getElementById('cat-desc').value = '';
+      document.getElementById('cat-order').value = '0';
+      document.getElementById('cat-modal').classList.add('open');
+    }
+
+    async function editCat(id) {
+      const { data } = await sb.from('categories').select('*').eq('id', id).single();
+      if (!data) return;
+      editingId = id;
+      document.getElementById('cat-modal-title').textContent = 'Kateqoriyanı Düzəlt';
+      document.getElementById('cat-name').value = data.name;
+      document.getElementById('cat-slug').value = data.slug;
+      document.getElementById('cat-desc').value = data.description || '';
+      document.getElementById('cat-order').value = data.sort_order;
+      document.getElementById('cat-modal').classList.add('open');
+    }
+
+    async function saveCat() {
+      const name = document.getElementById('cat-name').value.trim();
+      const slug = document.getElementById('cat-slug').value.trim();
+      if (!name || !slug) { showToast('Ad və slug mütləqdir', 'error'); return; }
+      const payload = { name, slug, description: document.getElementById('cat-desc').value.trim(), sort_order: parseInt(document.getElementById('cat-order').value) || 0 };
+      const { error } = editingId
+        ? await sb.from('categories').update(payload).eq('id', editingId)
+        : await sb.from('categories').insert(payload);
+      if (error) { showToast(error.message, 'error'); return; }
+      showToast(editingId ? 'Yeniləndi' : 'Əlavə edildi', 'success');
+      closeModal('cat-modal');
+      renderCategories();
+    }
+
+    async function delCat(id, name) {
+      if (!confirm(`"${name}" silinsin?`)) return;
+      const { error } = await sb.from('categories').delete().eq('id', id);
+      if (error) { showToast(error.message, 'error'); return; }
+      showToast('Silindi', 'success');
+      renderCategories();
+    }
+
+    // ─── PROJECTS ─────────────────────────────────────
+    async function renderProjects() {
+      setMain('<div class="loading">Yüklənir...</div>');
+      const { data, error } = await sb.from('projects').select('*, category:categories(name)').order('sort_order');
+      if (error) { setMain('<div class="empty-state">Xəta: ' + error.message + '</div>'); return; }
+      let rows = data.length ? data.map(p => `
+    <tr>
+      <td>
+        ${p.cover_image ? `<img src="${p.cover_image}" style="width:40px;height:28px;object-fit:cover;margin-right:10px;vertical-align:middle;border:1px solid var(--border)">` : ''}
+        <strong>${escHtml(p.title)}</strong>
+      </td>
+      <td style="color:var(--text-muted)">${escHtml(p.category?.name || '—')}</td>
+      <td style="color:var(--text-muted)">${p.year || '—'}</td>
+      <td><span class="badge ${p.is_published ? 'badge-yes' : 'badge-no'}">${p.is_published ? 'Bəli' : 'Xeyr'}</span></td>
+      <td><div class="td-actions">
+        <button class="btn btn-sm btn-outline" onclick="editProj('${p.id}')">Düzəliş</button>
+        <button class="btn btn-sm btn-danger" onclick="delProj('${p.id}','${escHtml(p.title)}')">Sil</button>
+      </div></td>
+    </tr>`).join('') : '<tr><td colspan="5"><div class="empty-state"><div class="empty-icon">🖼</div>Hələ layihə yoxdur</div></td></tr>';
+      setMain(`
+    <div class="page-header">
+      <div><div class="page-title">Layihələr</div><div class="page-subtitle">${data.length} layihə</div></div>
+      <button class="btn btn-accent" onclick="openProjModal()">+ Yeni Layihə</button>
+    </div>
+    <div class="table-wrap">
+      <table><thead><tr><th>Başlıq</th><th>Kateqoriya</th><th>İl</th><th>Yayımlanıb</th><th style="text-align:right">Əməliyyat</th></tr></thead>
+      <tbody>${rows}</tbody></table>
+    </div>`);
+    }
+
+    async function openProjModal() {
+      editingId = null; currentProjectId = null; currentCoverUrl = null; currentGalleryImages = [];
+      document.getElementById('proj-modal-title').textContent = 'Yeni Layihə';
+      ['proj-title', 'proj-slug', 'proj-client', 'proj-desc', 'proj-content'].forEach(id => document.getElementById(id).value = '');
+      document.getElementById('proj-year').value = new Date().getFullYear();
+      document.getElementById('proj-order').value = '0';
+      document.getElementById('proj-published').checked = false;
+      document.getElementById('cover-preview').style.display = 'none';
+      document.getElementById('gallery-grid').innerHTML = '';
+      await loadCatOptions();
+      document.getElementById('proj-modal').classList.add('open');
+    }
+
+    async function editProj(id) {
+      const { data: p } = await sb.from('projects').select('*').eq('id', id).single();
+      const { data: imgs } = await sb.from('project_images').select('*').eq('project_id', id).order('sort_order');
+      editingId = id; currentProjectId = id;
+      currentCoverUrl = p.cover_image || null;
+      currentGalleryImages = (imgs || []).map(i => ({ id: i.id, url: i.url }));
+      document.getElementById('proj-modal-title').textContent = 'Layihəni Düzəlt';
+      document.getElementById('proj-title').value = p.title;
+      document.getElementById('proj-slug').value = p.slug;
+      document.getElementById('proj-client').value = p.client || '';
+      document.getElementById('proj-year').value = p.year || '';
+      document.getElementById('proj-desc').value = p.description || '';
+      document.getElementById('proj-content').value = p.content || '';
+      document.getElementById('proj-order').value = p.sort_order || 0;
+      document.getElementById('proj-published').checked = p.is_published;
+      const prev = document.getElementById('cover-preview');
+      if (p.cover_image) { prev.src = p.cover_image; prev.style.display = 'block'; } else { prev.style.display = 'none'; }
+      renderGalleryGrid();
+      await loadCatOptions(p.category_id);
+      document.getElementById('proj-modal').classList.add('open');
+    }
+
+    async function loadCatOptions(selected) {
+      const { data } = await sb.from('categories').select('id,name').order('sort_order');
+      const sel = document.getElementById('proj-cat');
+      sel.innerHTML = '<option value="">— Kateqoriya yoxdur —</option>' + (data || []).map(c => `<option value="${c.id}" ${c.id === selected ? 'selected' : ''}>${escHtml(c.name)}</option>`).join('');
+    }
+
+    async function saveProj() {
+      const title = document.getElementById('proj-title').value.trim();
+      const slug = document.getElementById('proj-slug').value.trim();
+      if (!title || !slug) { showToast('Başlıq və slug mütləqdir', 'error'); return; }
+      const catVal = document.getElementById('proj-cat').value;
+      const payload = {
+        title, slug,
+        category_id: catVal || null,
+        client: document.getElementById('proj-client').value.trim() || null,
+        year: parseInt(document.getElementById('proj-year').value) || null,
+        description: document.getElementById('proj-desc').value.trim() || null,
+        content: document.getElementById('proj-content').value.trim() || null,
+        cover_image: currentCoverUrl || null,
+        sort_order: parseInt(document.getElementById('proj-order').value) || 0,
+        is_published: document.getElementById('proj-published').checked,
+      };
+      let projId = editingId;
+      if (editingId) {
+        const { error } = await sb.from('projects').update(payload).eq('id', editingId);
+        if (error) { showToast(error.message, 'error'); return; }
+      } else {
+        const { data, error } = await sb.from('projects').insert(payload).select().single();
+        if (error) { showToast(error.message, 'error'); return; }
+        projId = data.id;
+      }
+      // Save gallery images order
+      if (projId) {
+        for (let i = 0; i < currentGalleryImages.length; i++) {
+          const img = currentGalleryImages[i];
+          if (!img.id) {
+            await sb.from('project_images').insert({ project_id: projId, url: img.url, sort_order: i });
+          } else {
+            await sb.from('project_images').update({ sort_order: i }).eq('id', img.id);
+          }
+        }
+      }
+      showToast(editingId ? 'Yeniləndi ✓' : 'Əlavə edildi ✓', 'success');
+      closeModal('proj-modal');
+      renderProjects();
+    }
+
+    async function delProj(id, title) {
+      if (!confirm(`"${title}" silinsin?`)) return;
+      await sb.from('project_images').delete().eq('project_id', id);
+      const { error } = await sb.from('projects').delete().eq('id', id);
+      if (error) { showToast(error.message, 'error'); return; }
+      showToast('Silindi', 'success');
+      renderProjects();
+    }
+
+    // ─── IMAGE UPLOAD ─────────────────────────────────
+    async function uploadCover(input) {
+      const file = input.files[0];
+      if (!file) return;
+      const progress = document.getElementById('cover-progress');
+      const bar = document.getElementById('cover-bar');
+      progress.style.display = 'block'; bar.style.width = '30%';
+      const ext = file.name.split('.').pop();
+      const path = `cover_${Date.now()}.${ext}`;
+      const { data, error } = await sb.storage.from('covers').upload(path, file, { upsert: true });
+      bar.style.width = '100%';
+      setTimeout(() => { progress.style.display = 'none'; bar.style.width = '0%'; }, 600);
+      if (error) { showToast(error.message, 'error'); return; }
+      const { data: { publicUrl } } = sb.storage.from('covers').getPublicUrl(path);
+      currentCoverUrl = publicUrl;
+      const prev = document.getElementById('cover-preview');
+      prev.src = publicUrl; prev.style.display = 'block';
+      showToast('Üz şəkil yükləndi ✓', 'success');
+    }
+
+    async function uploadGallery(input) {
+      const files = Array.from(input.files);
+      if (!files.length) return;
+      const progress = document.getElementById('gallery-progress');
+      const bar = document.getElementById('gallery-bar');
+      progress.style.display = 'block';
+      for (let i = 0; i < files.length; i++) {
+        bar.style.width = ((i + 1) / files.length * 90) + '%';
+        const file = files[i];
+        const ext = file.name.split('.').pop();
+        const path = `gallery_${Date.now()}_${i}.${ext}`;
+        const { error } = await sb.storage.from('gallery').upload(path, file, { upsert: true });
+        if (error) { showToast(error.message, 'error'); continue; }
+        const { data: { publicUrl } } = sb.storage.from('gallery').getPublicUrl(path);
+        currentGalleryImages.push({ id: null, url: publicUrl });
+      }
+      bar.style.width = '100%';
+      setTimeout(() => { progress.style.display = 'none'; bar.style.width = '0%'; }, 600);
+      renderGalleryGrid();
+      showToast(`${files.length} şəkil yükləndi ✓`, 'success');
+    }
+
+    function renderGalleryGrid() {
+      const grid = document.getElementById('gallery-grid');
+      grid.innerHTML = currentGalleryImages.map((img, i) => `
+    <div class="image-thumb">
+      <img src="${img.url}" loading="lazy">
+      <button class="image-thumb-del" onclick="removeGalleryImg(${i})">×</button>
+    </div>`).join('');
+    }
+
+    async function removeGalleryImg(idx) {
+      const img = currentGalleryImages[idx];
+      if (img.id) {
+        await sb.from('project_images').delete().eq('id', img.id);
+      }
+      currentGalleryImages.splice(idx, 1);
+      renderGalleryGrid();
+    }
+
+    // ─── SETTINGS ─────────────────────────────────────
+    async function renderSettings() {
+      setMain('<div class="loading">Yüklənir...</div>');
+      const { data } = await sb.from('settings').select('*');
+      const s = {};
+      (data || []).forEach(function(row) { s[row.key] = row.value || ''; });
+
+      function sec(label) {
+        return '<div style="font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--text-muted);margin:20px 0 12px;padding-bottom:8px;border-bottom:1px solid var(--border);">' + label + '</div>';
+      }
+      function inp(id, val, ph) {
+        return '<input class="form-input" id="' + id + '" value="' + escHtml(val) + '" placeholder="' + escHtml(ph) + '" />';
+      }
+      function ta(id, val, ph) {
+        return '<textarea class="form-textarea" id="' + id + '" style="min-height:64px" placeholder="' + escHtml(ph||'') + '">' + escHtml(val) + '</textarea>';
+      }
+      function field(label, azField, enField) {
+        return '<div class="form-group">'
+          + '<label class="form-label">' + label + '</label>'
+          + '<div class="az-group">' + azField + '</div>'
+          + '<div class="en-group">' + enField + '</div>'
+          + '</div>';
+      }
+      function field2(label1, azF1, enF1, label2, azF2, enF2) {
+        return '<div class="form-row">'
+          + '<div class="form-group"><label class="form-label">' + label1 + '</label><div class="az-group">' + azF1 + '</div><div class="en-group">' + enF1 + '</div></div>'
+          + '<div class="form-group"><label class="form-label">' + label2 + '</label><div class="az-group">' + azF2 + '</div><div class="en-group">' + enF2 + '</div></div>'
+          + '</div>';
+      }
+
+      var html = '';
+      html += '<div class="page-header"><div><div class="page-title">Ayarlar</div><div class="page-subtitle">Sayt məlumatları</div></div><button class="btn btn-accent" onclick="saveSettings()">Saxla</button></div>';
+      html += '<div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px 28px;max-width:560px;box-shadow:var(--shadow);">';
+
+      // Lang tabs
+      html += '<div class="lang-tabs"><button class="lang-tab active" onclick="settingsTab(\'az\',this)">🇦🇿 AZ</button><button class="lang-tab" onclick="settingsTab(\'en\',this)">🇬🇧 EN</button></div>';
+
+      html += sec('Ümumi');
+      html += field2('Sayt Başlığı', inp('set-title', s.site_title||'', 'Portfolio — Dizayn Studiyası'), inp('set-title-en', s.site_title_en||'', 'Portfolio — Design Studio'), 'Meta Açıqlama', ta('set-desc', s.site_description||'', ''), ta('set-desc-en', s.site_description_en||'', ''));
+
+      html += sec('Hero Bölməsi');
+      html += field('Böyük Başlıq', inp('set-hero-title', s.hero_title||'', 'Ana səhifə başlığı'), inp('set-hero-title-en', s.hero_title_en||'', 'Main page title'));
+      html += field('Alt Başlıq', inp('set-hero-sub', s.hero_subtitle||'', 'Qısa cümlə'), inp('set-hero-sub-en', s.hero_subtitle_en||'', 'Short subtitle'));
+
+      html += sec('Konseptlər Bölməsi');
+      html += field('Başlıq', inp('set-concepts-title', s.concepts_title||'', 'Dizayn Konseptləri'), inp('set-concepts-title-en', s.concepts_title_en||'', 'Design Concepts'));
+      html += field('Açıqlama', ta('set-concepts-desc', s.concepts_desc||'', ''), ta('set-concepts-desc-en', s.concepts_desc_en||'', ''));
+
+      html += sec('Haqqımızda Bölməsi');
+      html += field('Başlıq', inp('set-about-title', s.about_title||'', 'Haqqımızda'), inp('set-about-title-en', s.about_title_en||'', 'About Us'));
+      html += field('Mətn 1', ta('set-about-p1', s.about_p1||'', ''), ta('set-about-p1-en', s.about_p1_en||'', ''));
+      html += field('Mətn 2', ta('set-about-p2', s.about_p2||'', ''), ta('set-about-p2-en', s.about_p2_en||'', ''));
+
+      html += sec('İş Saatları');
+      html += field('Başlıq', inp('set-hours-title', s.hours_title||'', 'İş Saatları'), inp('set-hours-title-en', s.hours_title_en||'', 'Working Hours'));
+      html += field2('Həftəiçi', inp('set-hours-wd', s.hours_weekday||'', 'B.ertəsi – Cümə: 10:00–18:00'), inp('set-hours-wd-en', s.hours_weekday_en||'', 'Mon – Fri: 10:00–18:00'), 'Şənbə', inp('set-hours-sat', s.hours_saturday||'', 'Şənbə: 10:00–15:00'), inp('set-hours-sat-en', s.hours_saturday_en||'', 'Saturday: 10:00–15:00'));
+
+      html += sec('Əlaqə');
+      html += '<div class="form-row"><div class="form-group"><label class="form-label">Email</label><input class="form-input" id="set-email" type="email" value="' + escHtml(s.contact_email||'') + '" placeholder="info@example.com"/></div><div class="form-group"><label class="form-label">Telefon</label><input class="form-input" id="set-phone" value="' + escHtml(s.contact_phone||'') + '" placeholder="+994 50 000 00 00"/></div></div>';
+
+      html += sec('Sosial Şəbəkələr');
+      html += '<div class="form-row"><div class="form-group"><label class="form-label">Instagram</label><input class="form-input" id="set-ig" value="' + escHtml(s.social_instagram||'') + '" placeholder="https://instagram.com/..."/></div><div class="form-group"><label class="form-label">Facebook</label><input class="form-input" id="set-fb" value="' + escHtml(s.social_facebook||'') + '" placeholder="https://facebook.com/..."/></div></div>';
+      html += '<div class="form-group"><label class="form-label">Behance</label><input class="form-input" id="set-be" value="' + escHtml(s.social_behance||'') + '" placeholder="https://behance.net/..."/></div>';
+
+      html += '</div>';
+      setMain(html);
+    }
+
+    function settingsTab(lang, btn) {
+      document.querySelectorAll('.lang-tab').forEach(function(t) { t.classList.remove('active'); });
+      btn.classList.add('active');
+      document.querySelectorAll('.az-group').forEach(function(el) { el.style.display = lang === 'az' ? '' : 'none'; });
+      document.querySelectorAll('.en-group').forEach(function(el) { el.style.display = lang === 'en' ? '' : 'none'; });
+    }
+
+    async function saveSettings() {
+      function g(id) { var el = document.getElementById(id); return el ? el.value : ''; }
+      const updates = [
+        { key: 'site_title',          value: g('set-title') },
+        { key: 'site_title_en',       value: g('set-title-en') },
+        { key: 'site_description',    value: g('set-desc') },
+        { key: 'site_description_en', value: g('set-desc-en') },
+        { key: 'hero_title',          value: g('set-hero-title') },
+        { key: 'hero_title_en',       value: g('set-hero-title-en') },
+        { key: 'hero_subtitle',       value: g('set-hero-sub') },
+        { key: 'hero_subtitle_en',    value: g('set-hero-sub-en') },
+        { key: 'concepts_title',      value: g('set-concepts-title') },
+        { key: 'concepts_title_en',   value: g('set-concepts-title-en') },
+        { key: 'concepts_desc',       value: g('set-concepts-desc') },
+        { key: 'concepts_desc_en',    value: g('set-concepts-desc-en') },
+        { key: 'about_title',         value: g('set-about-title') },
+        { key: 'about_title_en',      value: g('set-about-title-en') },
+        { key: 'about_p1',            value: g('set-about-p1') },
+        { key: 'about_p1_en',         value: g('set-about-p1-en') },
+        { key: 'about_p2',            value: g('set-about-p2') },
+        { key: 'about_p2_en',         value: g('set-about-p2-en') },
+        { key: 'hours_title',         value: g('set-hours-title') },
+        { key: 'hours_title_en',      value: g('set-hours-title-en') },
+        { key: 'hours_weekday',       value: g('set-hours-wd') },
+        { key: 'hours_weekday_en',    value: g('set-hours-wd-en') },
+        { key: 'hours_saturday',      value: g('set-hours-sat') },
+        { key: 'hours_saturday_en',   value: g('set-hours-sat-en') },
+        { key: 'contact_email',       value: g('set-email') },
+        { key: 'contact_phone',       value: g('set-phone') },
+        { key: 'social_instagram',    value: g('set-ig') },
+        { key: 'social_facebook',     value: g('set-fb') },
+        { key: 'social_behance',      value: g('set-be') },
+      ];
+      for (const u of updates) {
+        await sb.from('settings').upsert(u, { onConflict: 'key' });
+      }
+      showToast('Ayarlar saxlandı ✓', 'success');
+    }
+
+    // ─── HELPERS ──────────────────────────────────────
+    function setMain(html) { document.getElementById('main-content').innerHTML = html; }
+
+    function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+
+    function escHtml(str) {
+      if (!str) return '';
+      return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
+    function autoSlug(input, targetId) {
+      const slug = input.value.toLowerCase()
+        .replace(/[àáâãäå]/g, 'a').replace(/[èéêë]/g, 'e').replace(/[ìíîï]/g, 'i')
+        .replace(/[òóôõö]/g, 'o').replace(/[ùúûü]/g, 'u').replace(/[ñ]/g, 'n')
+        .replace(/[ə]/g, 'e').replace(/[ü]/g, 'u').replace(/[ö]/g, 'o').replace(/[ğ]/g, 'g')
+        .replace(/[ş]/g, 's').replace(/[ı]/g, 'i').replace(/[ç]/g, 'c')
+        .replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-').trim();
+      document.getElementById(targetId).value = slug;
+    }
+
+    let toastTimer;
+    function showToast(msg, type = 'success') {
+      const t = document.getElementById('toast');
+      t.textContent = msg; t.className = `show ${type}`;
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => t.classList.remove('show'), 3000);
+    }
+
+    // Close modal on overlay click
+    document.querySelectorAll('.modal-overlay').forEach(overlay => {
+      overlay.addEventListener('click', e => { if (e.target === overlay) overlay.classList.remove('open'); });
+    });
+
+    // ─── INIT ─────────────────────────────────────────
+    checkSession();
+  </script>
+</body>
+
+</html>
