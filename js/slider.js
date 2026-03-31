@@ -8,18 +8,21 @@ document.addEventListener('DOMContentLoaded', function () {
   var gallery = document.querySelector('.proj-gallery');
   if (!gallery) return;
 
+  function isMobile() { return window.innerWidth <= 768; }
+
   // =============================================
-  // 1. MOUSE WHEEL → horizontal scroll
+  // 1. MOUSE WHEEL → horizontal scroll (yalnız desktop)
   // =============================================
 
   gallery.addEventListener('wheel', function (e) {
+    if (isMobile()) return;
     e.preventDefault();
     gallery.scrollLeft += (e.deltaY + e.deltaX) * 15;
     updateThumb();
   }, { passive: false });
 
   // =============================================
-  // 2. MOUSE DRAG
+  // 2. MOUSE DRAG (yalnız desktop)
   // =============================================
 
   var isDragging = false;
@@ -28,6 +31,7 @@ document.addEventListener('DOMContentLoaded', function () {
   var moved = false;
 
   gallery.addEventListener('mousedown', function (e) {
+    if (isMobile()) return;
     if (e.target.closest('.proj-scrollbar')) return;
     isDragging = true;
     moved = false;
@@ -51,19 +55,21 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   // =============================================
-  // 3. TOUCH SCROLL
+  // 3. TOUCH SCROLL (yalnız desktop üfüqi)
   // =============================================
 
   var touchX = 0;
   var touchScroll = 0;
 
   gallery.addEventListener('touchstart', function (e) {
+    if (isMobile()) return;
     touchX = e.touches[0].pageX;
     touchScroll = gallery.scrollLeft;
     moved = false;
   }, { passive: true });
 
   gallery.addEventListener('touchmove', function (e) {
+    if (isMobile()) return;
     var dx = e.touches[0].pageX - touchX;
     if (Math.abs(dx) > 4) moved = true;
     gallery.scrollLeft = touchScroll - dx;
@@ -89,16 +95,17 @@ document.addEventListener('DOMContentLoaded', function () {
   // 5. CUSTOM SCROLLBAR
   // =============================================
 
-  // HTML-ə scrollbar əlavə et
+  // HTML-ə scrollbar əlavə et (yalnız desktop)
   var scrollbar = document.createElement('div');
   scrollbar.className = 'proj-scrollbar';
   scrollbar.innerHTML = '<div class="proj-scrollbar__track"><div class="proj-scrollbar__thumb"></div></div>';
-  document.body.appendChild(scrollbar);
+  if (!isMobile()) document.body.appendChild(scrollbar);
 
   var thumb = scrollbar.querySelector('.proj-scrollbar__thumb');
   var track = scrollbar.querySelector('.proj-scrollbar__track');
 
   function updateThumb() {
+    if (isMobile()) return;
     var scrollWidth = gallery.scrollWidth;
     var clientWidth = gallery.clientWidth;
     if (scrollWidth <= clientWidth) {

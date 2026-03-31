@@ -271,3 +271,62 @@ body.project-page {
   color: rgba(255,255,255,0.45);
   letter-spacing: 0.1em;
 }
+
+/* =============================================
+   MOBİL: şaquli scroll (≤768px)
+   ============================================= */
+
+@media (max-width: 768px) {
+  body.project-page {
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: auto;
+    min-height: 100vh;
+  }
+
+  .proj-gallery {
+    position: static;
+    flex-direction: column;
+    overflow-x: hidden;
+    overflow-y: visible;
+    height: auto;
+    cursor: default;
+    padding-top: 52px; /* topbar hündürlüyü qədər boşluq */
+  }
+
+  .proj-gallery.grabbing {
+    cursor: default;
+  }
+
+  .proj-gallery__item {
+    width: 100%;
+    height: auto;
+  }
+
+  .proj-gallery__item + .proj-gallery__item {
+    margin-left: 0;
+    margin-top: 4px;
+  }
+
+  .proj-gallery__item img {
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+  }
+
+  /* Custom scrollbar gizlət — native scroll işləyir */
+  .proj-scrollbar {
+    display: none;
+  }
+
+  /* Scroll hint oxunu aşağıya çevir */
+  .proj-scroll-hint svg {
+    animation: hintArrowDown 1s ease infinite alternate;
+    transform: rotate(90deg);
+  }
+
+  @keyframes hintArrowDown {
+    from { transform: rotate(90deg) translateX(-4px); }
+    to   { transform: rotate(90deg) translateX(4px); }
+  }
+}
