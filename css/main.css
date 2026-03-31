@@ -3,7 +3,7 @@
    ============================================= */
 
 /* ---- Inter (Figma dizayn fontu) ---- */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,300;1,400&display=swap');
 
 /* ---- Reset ---- */
 *,
@@ -22,7 +22,7 @@
   --orange: #FF5400;
   --black: #000000;
   --white: #ffffff;
-  --yellow: #FFFC00;
+  --yellow: #ffffff;
   --yellow-hover: #FFFEB3;
   --gray-bg: #f5f5f5;
   --text-muted: rgba(0, 0, 0, 0.45);
@@ -366,8 +366,9 @@ a {
   background-color: var(--overlay-light);
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
-  padding: 32px 40px;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding: 60px 60px;
   color: var(--white);
   transition: background-color var(--transition);
 }
@@ -390,27 +391,30 @@ a {
 }
 
 .oi-thumb__title {
-  font-size: 28px;
-  font-weight: 300;
+  font-size: 40px;
   letter-spacing: 0.04em;
   line-height: 1;
+  margin-top: 15px;
   margin-bottom: 4px;
+  font-weight: 100;
 }
 
 .oi-thumb__area {
-  font-size: 13px;
-  font-weight: 700;
+  font-size: 15;
+  font-weight: 100;
   letter-spacing: 0.1em;
-  color: var(--yellow);
   margin-bottom: 2px;
   order: -2;
+  font-weight: bold;
 }
 
 .oi-thumb__location {
-  font-size: 13px;
-  opacity: 0.75;
-  margin-bottom: 8px;
-  order: -1;
+  font-size: 15px;
+  font-weight: 100;
+  letter-spacing: 0.1em;
+  margin-bottom: 2px;
+  order: -2;
+  font-weight: bold;
 }
 
 /* =============================================
@@ -680,63 +684,73 @@ a {
    ============================================= */
 
 .mod-features {
-  background: var(--gray-bg);
-  padding: var(--section-padding) 0;
+  position: relative;
+  overflow: hidden;
+  background: rgba(204, 206, 205, 0.2);
+  padding: 180px 0 180px 120px;
 }
 
 .oi-features__inner {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 80px;
-  align-items: center;
+  position: relative;
+  max-width: 593px;
 }
 
 .oi-features__title {
-  font-size: 36px;
+  font-size: 43px;
   font-weight: 300;
   color: var(--black);
   margin-bottom: 20px;
+  line-height: 1;
 }
 
 .oi-features__desc {
-  font-size: 15px;
+  font-size: 14px;
   color: var(--black);
-  max-width: 550px;
-  margin-bottom: 32px;
-  line-height: 1.6;
+  margin-bottom: 40px;
+  line-height: 1.51;
 }
 
 .oi-features__list {
   list-style: none;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 15px 40px;
+  gap: 0;
   margin-bottom: 40px;
 }
 
 .oi-feature__item {
   display: flex;
-  align-items: flex-start;
-  gap: 10px;
+  flex-direction: column;
+  gap: 8px;
+  padding-bottom: 32px;
 }
 
 .oi-feature__icon {
   flex-shrink: 0;
+  width: 40px;
+  height: 40px;
   color: var(--black);
-  opacity: 0.7;
-  margin-top: 2px;
+}
+
+.oi-feature__icon svg {
+  width: 40px;
+  height: 40px;
 }
 
 .oi-feature__item span:last-child {
-  font-size: 15px;
-  font-weight: 400;
+  font-size: 22px;
+  font-weight: 300;
   color: var(--black);
-  line-height: 1.4;
+  line-height: 1.2;
 }
 
 .oi-features__right {
-  aspect-ratio: 4/5;
-  overflow: hidden;
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 100%;
+  width: 53%;
+  pointer-events: none;
 }
 
 .oi-features__right img {
@@ -1033,13 +1047,19 @@ a {
     grid-template-columns: 1fr;
   }
 
-  .oi-features__inner {
-    grid-template-columns: 1fr;
-    gap: 40px;
+  .mod-features {
+    padding: 80px 40px 400px 40px;
   }
 
-  .oi-features__list {
-    grid-template-columns: 1fr;
+  .oi-features__inner {
+    max-width: 100%;
+  }
+
+  .oi-features__right {
+    position: relative;
+    width: 100%;
+    height: 320px;
+    margin-top: 40px;
   }
 
   .oi-contacts__inner {
@@ -1086,7 +1106,7 @@ a {
   }
 
   .oi-features__right {
-    aspect-ratio: 3/2;
+    height: 220px;
   }
 
   .oi-contacts__info {
@@ -1102,7 +1122,6 @@ a {
   .mod-portfolio,
   .mod-services,
   .mod-process,
-  .mod-features,
   .mod-contacts {
     padding: 48px 0;
   }

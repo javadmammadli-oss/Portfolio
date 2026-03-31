@@ -17,7 +17,16 @@
       "Bash(npx @puppeteer/mcp --version)",
       "Bash(npm show:*)",
       "Bash(find C:/Users/Javad/Documents -name *Style_transfer* -o -name *style_transfer*)",
-      "Bash(find C:/Users/Javad -maxdepth 3 -name *.md)"
+      "Bash(find C:/Users/Javad -maxdepth 3 -name *.md)",
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\(json.dumps\\(d.get\\(''''mcpServers'''', {}\\), indent=2\\)\\)\" 2)",
+      "Bash(/dev/null ls:*)",
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\(json.dumps\\({k:v for k,v in d.items\\(\\) if ''''mcp'''' in k.lower\\(\\) or ''''server'''' in k.lower\\(\\)}, indent=2\\)\\)\")",
+      "Bash(npx --yes @figma/mcp --help)",
+      "Bash(npx --yes figma-developer-mcp --help)",
+      "mcp__figma__get_figma_data",
+      "Bash(python3 -c \":*)",
+      "Bash(PYTHONIOENCODING=utf-8 python3 << 'PYTHON_SCRIPT':*)",
+      "Bash(find e:/Website/portfolio/img -name *.jpg -o -name *.png -o -name *.webp -o -name *.jpeg)"
     ],
     "additionalDirectories": [
       "e:\\Website\\portfolio",

@@ -75,7 +75,7 @@ var I18N = {
     email_label:    'Email',
     social_label:   'Sosial Şəbəkələr',
 
-    footer_copy: '© 2026 Oksana Ivanova. Bütün hüquqlar qorunur.',
+    footer_copy: '© 2026 Javad Mammadli. Bütün hüquqlar qorunur.',
     page_title:  'Portfolio — İnteryar Dizayn Studiyası'
   },
 
@@ -151,7 +151,7 @@ var I18N = {
     email_label:    'Email',
     social_label:   'Social Media',
 
-    footer_copy: '© 2026 Oksana Ivanova. All rights reserved.',
+    footer_copy: '© 2026 Javad Mammadli. All rights reserved.',
     page_title:  'Portfolio — Interior Design Studio'
   }
 };
