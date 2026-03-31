@@ -1,8 +1,3 @@
-// =============================================
-// slider.js — Horizontal gallery
-// mouse drag + wheel scroll + custom scrollbar + lightbox
-// =============================================
-
 document.addEventListener('DOMContentLoaded', function () {
 
   var gallery = document.querySelector('.proj-gallery');
@@ -10,10 +5,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   function isMobile() { return window.innerWidth <= 768; }
 
-  // =============================================
-  // 1. MOUSE WHEEL → horizontal scroll (yalnız desktop)
-  // =============================================
-
+  // Mouse wheel → horizontal scroll (desktop only)
   gallery.addEventListener('wheel', function (e) {
     if (isMobile()) return;
     e.preventDefault();
@@ -21,18 +13,14 @@ document.addEventListener('DOMContentLoaded', function () {
     updateThumb();
   }, { passive: false });
 
-  // =============================================
-  // 2. MOUSE DRAG (yalnız desktop)
-  // =============================================
-
+  // Mouse drag (desktop only)
   var isDragging = false;
   var startX = 0;
   var scrollStart = 0;
   var moved = false;
 
   gallery.addEventListener('mousedown', function (e) {
-    if (isMobile()) return;
-    if (e.target.closest('.proj-scrollbar')) return;
+    if (isMobile() || e.target.closest('.proj-scrollbar')) return;
     isDragging = true;
     moved = false;
     startX = e.pageX;
@@ -54,10 +42,7 @@ document.addEventListener('DOMContentLoaded', function () {
     gallery.classList.remove('grabbing');
   });
 
-  // =============================================
-  // 3. TOUCH SCROLL (yalnız desktop üfüqi)
-  // =============================================
-
+  // Touch drag (desktop only)
   var touchX = 0;
   var touchScroll = 0;
 
@@ -76,26 +61,16 @@ document.addEventListener('DOMContentLoaded', function () {
     updateThumb();
   }, { passive: true });
 
-  // =============================================
-  // 4. KLAVIATURA
-  // =============================================
-
+  // Keyboard navigation
   document.addEventListener('keydown', function (e) {
-    if (e.key === 'ArrowRight') { gallery.scrollBy({ left: 500, behavior: 'smooth' }); }
-    if (e.key === 'ArrowLeft') { gallery.scrollBy({ left: -500, behavior: 'smooth' }); }
-    if (e.key === 'Escape') { history.back(); }
+    if (e.key === 'ArrowRight') gallery.scrollBy({ left:  500, behavior: 'smooth' });
+    if (e.key === 'ArrowLeft')  gallery.scrollBy({ left: -500, behavior: 'smooth' });
+    if (e.key === 'Escape')     history.back();
   });
 
-  // scroll hadisəsindən thumb yenilə
-  gallery.addEventListener('scroll', function () {
-    updateThumb();
-  });
+  gallery.addEventListener('scroll', updateThumb);
 
-  // =============================================
-  // 5. CUSTOM SCROLLBAR
-  // =============================================
-
-  // HTML-ə scrollbar əlavə et (yalnız desktop)
+  // Custom scrollbar (desktop only)
   var scrollbar = document.createElement('div');
   scrollbar.className = 'proj-scrollbar';
   scrollbar.innerHTML = '<div class="proj-scrollbar__track"><div class="proj-scrollbar__thumb"></div></div>';
@@ -113,15 +88,12 @@ document.addEventListener('DOMContentLoaded', function () {
       return;
     }
     scrollbar.style.display = 'block';
-
     var ratio = clientWidth / scrollWidth;
     var thumbWidth = Math.max(40, track.clientWidth * ratio);
     var maxScroll = scrollWidth - clientWidth;
     var maxThumbLeft = track.clientWidth - thumbWidth;
-    var thumbLeft = (gallery.scrollLeft / maxScroll) * maxThumbLeft;
-
     thumb.style.width = thumbWidth + 'px';
-    thumb.style.left = thumbLeft + 'px';
+    thumb.style.left = (gallery.scrollLeft / maxScroll) * maxThumbLeft + 'px';
   }
 
   // Thumb drag
@@ -141,11 +113,7 @@ document.addEventListener('DOMContentLoaded', function () {
   document.addEventListener('mousemove', function (e) {
     if (!thumbDragging) return;
     var dx = e.pageX - thumbStartX;
-    var scrollWidth = gallery.scrollWidth;
-    var clientWidth = gallery.clientWidth;
-    var trackWidth = track.clientWidth;
-    var thumbWidth = thumb.offsetWidth;
-    var ratio = (scrollWidth - clientWidth) / (trackWidth - thumbWidth);
+    var ratio = (gallery.scrollWidth - gallery.clientWidth) / (track.clientWidth - thumb.offsetWidth);
     gallery.scrollLeft = thumbScrollStart + dx * ratio;
     updateThumb();
   });
@@ -157,27 +125,17 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 
-  // Track-a klik (thumb xaricində)
   track.addEventListener('click', function (e) {
     if (e.target === thumb) return;
-    var rect = track.getBoundingClientRect();
-    var clickX = e.clientX - rect.left;
-    var ratio = clickX / track.clientWidth;
-    var maxScroll = gallery.scrollWidth - gallery.clientWidth;
-    gallery.scrollLeft = ratio * maxScroll;
+    var ratio = (e.clientX - track.getBoundingClientRect().left) / track.clientWidth;
+    gallery.scrollLeft = ratio * (gallery.scrollWidth - gallery.clientWidth);
     updateThumb();
   });
 
-  // İlk render
   setTimeout(updateThumb, 100);
   window.addEventListener('resize', updateThumb);
 
-  // =============================================
-  // 6. ŞƏKİLƏ KLİK → LIGHTBOX (event delegation — dinamik şəkilləri dəstəkləyir)
-  // =============================================
-
-  gallery.style.setProperty('--img-cursor', 'zoom-in');
-
+  // Image click → lightbox
   gallery.addEventListener('click', function (e) {
     if (moved) return;
     var img = e.target;
@@ -185,11 +143,9 @@ document.addEventListener('DOMContentLoaded', function () {
     var items = Array.from(gallery.querySelectorAll('.proj-gallery__item img'));
     var index = items.indexOf(img);
     if (index < 0) return;
-    var srcs = items.map(function (i) { return i.src; });
-    openLightbox(index, srcs);
+    openLightbox(index, items.map(function (i) { return i.src; }));
   });
 
-  // Cursor-u CSS ilə tənzimlə
   (function () {
     var s = document.createElement('style');
     s.textContent = '.proj-gallery__item img { cursor: zoom-in; }';
@@ -216,9 +172,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var lbCur = lb.querySelector('.lb-cur');
 
     function show(i) {
-      if (i < 0) i = total - 1;
-      if (i >= total) i = 0;
-      current = i;
+      current = (i + total) % total;
       lbImg.src = srcs[current];
       lbCur.textContent = current + 1;
     }
@@ -233,9 +187,9 @@ document.addEventListener('DOMContentLoaded', function () {
     document.addEventListener('keydown', lbKeys);
 
     function lbKeys(e) {
-      if (e.key === 'Escape') closeLb();
+      if (e.key === 'Escape')     closeLb();
       if (e.key === 'ArrowRight') show(current + 1);
-      if (e.key === 'ArrowLeft') show(current - 1);
+      if (e.key === 'ArrowLeft')  show(current - 1);
     }
 
     function closeLb() {

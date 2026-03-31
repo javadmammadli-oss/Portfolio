@@ -1,11 +1,6 @@
-/* =============================================
-   main.css — Style_transfer.md əsasında
-   ============================================= */
-
-/* ---- Inter (Figma dizayn fontu) ---- */
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,300;1,400&display=swap');
 
-/* ---- Reset ---- */
+/* Reset */
 *,
 *::before,
 *::after {
@@ -14,23 +9,17 @@
   padding: 0;
 }
 
-/* =============================================
-   CSS DƏYIŞƏNLƏR (Design Tokens)
-   ============================================= */
+/* Design Tokens */
 :root {
   --font: 'Inter', Arial, sans-serif;
-  --orange: #FF5400;
   --black: #000000;
   --white: #ffffff;
   --yellow: #ffffff;
   --yellow-hover: #FFFEB3;
-  --gray-bg: #f5f5f5;
   --text-muted: rgba(0, 0, 0, 0.45);
   --overlay-light: rgba(0, 0, 0, 0.40);
   --overlay-dark: rgba(0, 0, 0, 0.60);
   --transition: .3s ease;
-
-  /* Layout */
   --container-padding: 30px;
   --section-padding: 60px;
   --btn-radius: 25px;
@@ -62,9 +51,7 @@ a {
   transition: border-bottom var(--transition);
 }
 
-/* =============================================
-   LAYOUT
-   ============================================= */
+/* Layout */
 
 .oi-container {
   width: 100%;
@@ -73,9 +60,7 @@ a {
   padding: 0 var(--container-padding);
 }
 
-/* =============================================
-   HEADER — hero üzərindən keçir
-   ============================================= */
+/* Header */
 
 .oi-header {
   position: relative;
@@ -87,13 +72,9 @@ a {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  padding-top: 50px;
-  padding-bottom: 30px;
-  padding-left: 100px;
-  padding-right: 100px;
+  padding: 50px 100px 30px;
 }
 
-/* ---- Logo ---- */
 .oi-logo {
   display: block;
   line-height: 0;
@@ -105,7 +86,6 @@ a {
   object-fit: contain;
 }
 
-/* ---- Nav ---- */
 .oi-nav {
   display: flex;
   align-items: flex-start;
@@ -125,7 +105,7 @@ a {
   font-size: 13px;
   font-weight: 400;
   color: var(--white);
-  border-bottom: 1px solid rgba(255, 255, 255, 0);
+  border-bottom: 1px solid transparent;
   transition: border-bottom var(--transition);
 }
 
@@ -141,13 +121,13 @@ a {
   gap: 12px;
 }
 
-/* ---- Lang ---- */
+/* Lang */
+
 .oi-lang {
   display: flex;
   align-items: center;
   gap: 6px;
   font-size: 13px;
-  font-weight: 400;
   color: var(--white);
 }
 
@@ -161,7 +141,8 @@ a {
   opacity: 1;
 }
 
-/* ---- Social ---- */
+/* Social */
+
 .oi-social {
   display: flex;
   gap: 12px;
@@ -191,9 +172,7 @@ a {
   opacity: 1;
 }
 
-/* =============================================
-   BUTTONS
-   ============================================= */
+/* Buttons */
 
 .oi-btn {
   display: inline-flex;
@@ -216,7 +195,6 @@ a {
   outline: none;
 }
 
-/* Primary — sarı düymə */
 .oi-btn--primary {
   background-color: var(--yellow);
   color: var(--black);
@@ -226,7 +204,6 @@ a {
   background-color: var(--yellow-hover);
 }
 
-/* Outline / Ghost — şəffaf, ağ kənar (qaranlıq fonlarda) */
 .oi-btn--outline {
   background-color: transparent;
   border: 1px solid rgba(255, 255, 255, 0.2);
@@ -238,20 +215,16 @@ a {
   border-color: transparent;
 }
 
-/* Dark — qara düymə */
 .oi-btn--dark {
   background-color: var(--black);
   color: var(--white);
-  border: none;
 }
 
 .oi-btn--dark:hover {
-  background-color: #333333;
+  background-color: #333;
 }
 
-/* =============================================
-   HERO
-   ============================================= */
+/* Hero */
 
 .mod-hero {
   position: relative;
@@ -301,9 +274,7 @@ a {
   flex-wrap: wrap;
 }
 
-/* =============================================
-   PORTFOLIO
-   ============================================= */
+/* Portfolio */
 
 .mod-portfolio {
   padding: var(--section-padding) 0 0;
@@ -330,7 +301,6 @@ a {
   text-align: left;
 }
 
-/* ---- Portfolio Grid — Figma: 2 col × 10px gap, card h=600px, padding 10px ---- */
 .oi-grid-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -368,14 +338,14 @@ a {
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  padding: 60px 60px;
+  padding: 60px;
   color: var(--white);
   transition: background-color var(--transition);
 }
 
 @media (min-width: 769px) {
   .oi-thumb__box {
-    background-color: rgba(0, 0, 0, 0);
+    background-color: transparent;
     opacity: 0;
     transition: opacity var(--transition), background-color var(--transition);
   }
@@ -399,27 +369,16 @@ a {
   font-weight: 100;
 }
 
-.oi-thumb__area {
-  font-size: 15;
-  font-weight: 100;
-  letter-spacing: 0.1em;
-  margin-bottom: 2px;
-  order: -2;
-  font-weight: bold;
-}
-
+.oi-thumb__area,
 .oi-thumb__location {
   font-size: 15px;
-  font-weight: 100;
+  font-weight: bold;
   letter-spacing: 0.1em;
   margin-bottom: 2px;
   order: -2;
-  font-weight: bold;
 }
 
-/* =============================================
-   SERVICES — qaranlıq fon, bg şəkil, 3-sütun
-   ============================================= */
+/* Services */
 
 .mod-services {
   position: relative;
@@ -458,7 +417,6 @@ a {
   display: flex;
   flex-direction: column;
   align-items: center;
-  text-align: center;
   color: var(--white);
 }
 
@@ -466,7 +424,6 @@ a {
   width: 50px;
   height: 50px;
   margin: 0 auto 20px;
-  color: var(--white);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -491,75 +448,59 @@ a {
   text-align: center;
 }
 
-/* =============================================
-   PROCESS — Figma: rəngli bar kartlar, üfüqi sıra
-   ============================================= */
+/* Process */
 
 .mod-process {
   padding: var(--section-padding) 0;
-  background: var(--white);
 }
 
-/* Figma Heading 2: 43.5px, Light 300, lineHeight 0.828, LEFT */
 .mod-process .oi-section__title {
   font-size: 60px;
   font-weight: 500;
   line-height: 0.828;
   text-align: left;
   margin-bottom: 40px;
-  /* layout_4DO44L gap: 20px */
 }
 
-/* Figma desc→Stage1 gap: ~33px */
 .mod-process .oi-section__desc {
   text-align: left;
   font-size: 20px;
   line-height: 1.511;
   max-width: 900px;
-  /* layout_4DO44L width: 592.94px */
   margin-bottom: 50px;
 }
 
-/* Figma Stage1→Stage2 gap: ~15px */
 .oi-process {
   display: flex;
   flex-direction: column;
   gap: 15px;
 }
 
-/* Figma Heading 3: 44.8px, Light 300, lineHeight 1.071, LEFT */
 .oi-process__stage-title {
   font-size: 22px;
   font-weight: 300;
   line-height: 1.071;
   color: var(--black);
   margin-bottom: 15px;
-  /* layout_QHT2AC gap: 15px */
 }
 
-/* Kartlar sırası — Figma: mode row, gap 0 */
 .oi-process__cards {
   display: flex;
-  gap: 0;
 }
 
-/* Hər kart — Figma: mode column, gap 20px */
 .oi-process__card {
   flex: 1;
   display: flex;
   flex-direction: column;
   gap: 20px;
-  /* layout_IZC78P gap: 20px */
 }
 
-/* Rəngli bar — Figma: height 60px, fill width */
 .oi-process__bar {
   height: 20px;
   width: 100%;
   flex-shrink: 0;
 }
 
-/* Addım mətni — Figma: Inter Bold 13.9px, lineHeight 1.079 */
 .oi-process__card span {
   font-size: 13.9px;
   font-weight: 700;
@@ -567,9 +508,7 @@ a {
   line-height: 1.079;
 }
 
-/* =============================================
-   BLUEPRINT
-   ============================================= */
+/* Blueprint */
 
 .oi-blueprint {
   padding: 0 500px;
@@ -583,26 +522,18 @@ a {
 }
 
 @media (max-width: 1200px) {
-  .oi-blueprint {
-    padding: 0 120px;
-  }
+  .oi-blueprint { padding: 0 120px; }
 }
 
 @media (max-width: 768px) {
-  .oi-blueprint {
-    padding: 0 24px;
-  }
+  .oi-blueprint { padding: 0 24px; }
 }
 
 @media (max-width: 480px) {
-  .oi-blueprint {
-    padding: 0 16px;
-  }
+  .oi-blueprint { padding: 0 16px; }
 }
 
-/* =============================================
-   ABOUT / QUOTE — Figma: fon şəkil, content aşağıda
-   ============================================= */
+/* About */
 
 .mod-about {
   position: relative;
@@ -610,7 +541,6 @@ a {
   flex-direction: column;
   justify-content: flex-end;
   padding: 622px 0 120px;
-  /* Figma: top 622px, bottom 120px */
   background-image: url('../img/about.jpg');
   background-size: cover;
   background-position: center;
@@ -620,17 +550,14 @@ a {
   position: absolute;
   inset: 0;
   background-color: rgba(0, 0, 0, 0.40);
-  /* Figma: Black 40% */
 }
 
 .oi-about__content {
   position: relative;
   z-index: 1;
   margin: 120px;
-  padding: 0;
 }
 
-/* Figma Heading 2: 43.5px, Light 300, White, max-width 889px */
 .oi-about__quote {
   font-size: 40px;
   font-weight: 500;
@@ -638,50 +565,16 @@ a {
   max-width: 1200px;
   line-height: 1.2;
   margin-bottom: 20px;
-  /* Figma: layout_5FO143 padding-top 20px */
 }
 
-/* Figma: Inter Regular 13.9px, White */
 .oi-about__desc {
   font-size: 20px;
-  font-weight: 400;
   color: var(--white);
   line-height: 1.511;
   max-width: 889px;
 }
 
-@media (max-width: 1024px) {
-  .mod-about {
-    padding: 300px 0 80px;
-  }
-
-  .oi-about__content {
-    padding: 0 60px;
-  }
-
-  .oi-about__quote {
-    font-size: 32px;
-  }
-}
-
-@media (max-width: 768px) {
-  .mod-about {
-    padding: 200px 0 60px;
-  }
-
-  .oi-about__content {
-    padding: 0 24px;
-  }
-
-  .oi-about__quote {
-    font-size: 26px;
-    line-height: 1.2;
-  }
-}
-
-/* =============================================
-   WHAT YOU GET — açıq boz fon
-   ============================================= */
+/* Features */
 
 .mod-features {
   position: relative;
@@ -714,7 +607,6 @@ a {
   list-style: none;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 0;
   margin-bottom: 40px;
 }
 
@@ -759,13 +651,10 @@ a {
   object-fit: cover;
 }
 
-/* =============================================
-   CONTACTS — ağ fon, minimalist form
-   ============================================= */
+/* Contacts */
 
 .mod-contacts {
   padding: var(--section-padding) 0;
-  background: var(--white);
 }
 
 .oi-contacts__inner {
@@ -790,7 +679,6 @@ a {
   background: transparent;
   font-family: var(--font);
   font-size: 18px;
-  font-weight: 400;
   padding: 8px 0;
   outline: none;
   transition: border-bottom var(--transition);
@@ -830,7 +718,6 @@ a {
   padding: 16px 0;
 }
 
-/* Submit düymə — qara */
 .oi-contacts__form .oi-btn {
   margin-top: 12px;
   background-color: var(--black);
@@ -839,10 +726,9 @@ a {
 }
 
 .oi-contacts__form .oi-btn:hover {
-  background-color: #333333;
+  background-color: #333;
 }
 
-/* Sağ tərəf */
 .oi-contacts__info {
   padding-top: 72px;
 }
@@ -884,9 +770,7 @@ a {
   border-bottom-color: var(--black);
 }
 
-/* =============================================
-   FOOTER
-   ============================================= */
+/* Footer */
 
 .oi-footer {
   background: var(--black);
@@ -917,9 +801,7 @@ a {
   opacity: 1;
 }
 
-/* =============================================
-   SCROLL ANİMASİYALAR
-   ============================================= */
+/* Scroll animations */
 
 .anim-fade {
   opacity: 0;
@@ -932,23 +814,12 @@ a {
   transform: translateY(0);
 }
 
-.oi-service__card.anim-fade:nth-child(2) {
-  transition-delay: 0.1s;
-}
+.oi-service__card.anim-fade:nth-child(2) { transition-delay: 0.1s; }
+.oi-service__card.anim-fade:nth-child(3) { transition-delay: 0.2s; }
+.oi-thumb.anim-fade:nth-child(even)      { transition-delay: 0.12s; }
 
-.oi-service__card.anim-fade:nth-child(3) {
-  transition-delay: 0.2s;
-}
+/* Responsive */
 
-.oi-thumb.anim-fade:nth-child(even) {
-  transition-delay: 0.12s;
-}
-
-/* =============================================
-   RESPONSİV
-   ============================================= */
-
-/* --- 1200px-dən kiçik --- */
 @media (max-width: 1200px) {
   .mod-about {
     padding: 400px 0 80px;
@@ -959,7 +830,6 @@ a {
   }
 }
 
-/* --- 1025px-dən kiçik --- */
 @media (max-width: 1024px) {
   .mod-process .oi-section__title {
     font-size: 32px;
@@ -986,9 +856,12 @@ a {
   .oi-about__content {
     margin: 40px;
   }
+
+  .oi-about__quote {
+    font-size: 32px;
+  }
 }
 
-/* --- Tablet: max 768px --- */
 @media (max-width: 768px) {
   .oi-container {
     padding: 0 20px;
@@ -999,17 +872,13 @@ a {
   }
 
   .oi-header__inner {
-    padding-top: 20px;
-    padding-bottom: 16px;
-    padding-left: 20px;
-    padding-right: 20px;
+    padding: 20px;
   }
 
   .oi-nav__contacts {
     display: none;
   }
 
-  /* Tipografiya */
   .oi-hero__title {
     font-size: 36px;
   }
@@ -1020,14 +889,12 @@ a {
 
   .oi-about__quote {
     font-size: 24px;
-    line-height: 1.2;
   }
 
   .oi-features__title {
     font-size: 24px;
   }
 
-  /* Düymələr tam en */
   .oi-btn {
     width: 100%;
   }
@@ -1037,10 +904,8 @@ a {
     gap: 12px;
   }
 
-  /* Grid-lər 1 sütuna */
   .oi-grid-row {
     grid-template-columns: 1fr;
-    padding: 0 5px 5px;
   }
 
   .oi-services__grid {
@@ -1048,7 +913,7 @@ a {
   }
 
   .mod-features {
-    padding: 80px 40px 400px 40px;
+    padding: 80px 40px 400px;
   }
 
   .oi-features__inner {
@@ -1058,7 +923,7 @@ a {
   .oi-features__right {
     position: relative;
     width: 100%;
-    height: 320px;
+    height: 220px;
     margin-top: 40px;
   }
 
@@ -1067,10 +932,12 @@ a {
     gap: 40px;
   }
 
-  /* Process */
+  .oi-contacts__info {
+    padding-top: 0;
+  }
+
   .mod-process .oi-section__title {
     font-size: 24px;
-    line-height: 1;
   }
 
   .oi-process__stage-title {
@@ -1086,7 +953,6 @@ a {
     flex: 0 0 calc(50% - 1px);
   }
 
-  /* About */
   .mod-about {
     padding: 160px 0 48px;
   }
@@ -1095,7 +961,6 @@ a {
     margin: 20px 24px;
   }
 
-  /* Portfolio kartlar */
   .oi-thumb {
     height: 260px;
   }
@@ -1103,14 +968,6 @@ a {
   .oi-thumb__box {
     opacity: 1;
     background-color: var(--overlay-light);
-  }
-
-  .oi-features__right {
-    height: 220px;
-  }
-
-  .oi-contacts__info {
-    padding-top: 0;
   }
 
   .oi-footer__inner {
@@ -1131,7 +988,6 @@ a {
   }
 }
 
-/* --- Kiçik mobil: max 576px --- */
 @media (max-width: 576px) {
   .oi-hero__title {
     font-size: 26px;
@@ -1158,7 +1014,6 @@ a {
   }
 }
 
-/* --- Large Desktop: 1441px+ --- */
 @media (min-width: 1441px) {
   .oi-container {
     max-width: 1400px;
