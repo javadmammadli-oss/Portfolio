@@ -2,35 +2,44 @@
    main.css — Style_transfer.md əsasında
    ============================================= */
 
-/* ---- Nunito Sans (Proxima Nova alternativ) ---- */
-@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700&display=swap');
+/* ---- Inter (Figma dizayn fontu) ---- */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
 
 /* ---- Reset ---- */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
 /* =============================================
    CSS DƏYIŞƏNLƏR (Design Tokens)
    ============================================= */
 :root {
-  --font:          'Nunito Sans', 'Proxima Nova', Arial, sans-serif;
-  --black:         #000000;
-  --white:         #ffffff;
-  --yellow:        #FFFC00;
-  --yellow-hover:  #FFFEB3;
-  --gray-bg:       #f5f5f5;
-  --text-muted:    rgba(0, 0, 0, 0.45);
+  --font: 'Inter', Arial, sans-serif;
+  --orange: #FF5400;
+  --black: #000000;
+  --white: #ffffff;
+  --yellow: #FFFC00;
+  --yellow-hover: #FFFEB3;
+  --gray-bg: #f5f5f5;
+  --text-muted: rgba(0, 0, 0, 0.45);
   --overlay-light: rgba(0, 0, 0, 0.40);
-  --overlay-dark:  rgba(0, 0, 0, 0.60);
-  --transition:    .3s ease;
+  --overlay-dark: rgba(0, 0, 0, 0.60);
+  --transition: .3s ease;
 
   /* Layout */
   --container-padding: 30px;
-  --section-padding:   60px;
-  --btn-radius:        25px;
-  --btn-height:        50px;
+  --section-padding: 60px;
+  --btn-radius: 25px;
+  --btn-height: 50px;
 }
 
-html { scroll-behavior: smooth; }
+html {
+  scroll-behavior: smooth;
+}
 
 body {
   font-family: var(--font);
@@ -40,8 +49,18 @@ body {
   background: var(--white);
 }
 
-img { display: block; width: 100%; height: 100%; object-fit: cover; }
-a   { text-decoration: none; color: inherit; transition: border-bottom var(--transition); }
+img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  transition: border-bottom var(--transition);
+}
 
 /* =============================================
    LAYOUT
@@ -70,6 +89,8 @@ a   { text-decoration: none; color: inherit; transition: border-bottom var(--tra
   justify-content: space-between;
   padding-top: 50px;
   padding-bottom: 30px;
+  padding-left: 100px;
+  padding-right: 100px;
 }
 
 /* ---- Logo ---- */
@@ -130,12 +151,22 @@ a   { text-decoration: none; color: inherit; transition: border-bottom var(--tra
   color: var(--white);
 }
 
-.oi-lang__item { opacity: 0.5; transition: opacity var(--transition); }
+.oi-lang__item {
+  opacity: 0.5;
+  transition: opacity var(--transition);
+}
+
 .oi-lang__item.active,
-.oi-lang__item:hover { opacity: 1; }
+.oi-lang__item:hover {
+  opacity: 1;
+}
 
 /* ---- Social ---- */
-.oi-social { display: flex; gap: 12px; align-items: center; }
+.oi-social {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
 
 .oi-social__link {
   color: var(--white);
@@ -144,7 +175,10 @@ a   { text-decoration: none; color: inherit; transition: border-bottom var(--tra
   align-items: center;
   transition: opacity var(--transition);
 }
-.oi-social__link:hover { opacity: 1; }
+
+.oi-social__link:hover {
+  opacity: 1;
+}
 
 .oi-social--dark .oi-social__link {
   color: var(--black);
@@ -152,7 +186,10 @@ a   { text-decoration: none; color: inherit; transition: border-bottom var(--tra
   font-weight: 600;
   opacity: 0.6;
 }
-.oi-social--dark .oi-social__link:hover { opacity: 1; }
+
+.oi-social--dark .oi-social__link:hover {
+  opacity: 1;
+}
 
 /* =============================================
    BUTTONS
@@ -174,14 +211,20 @@ a   { text-decoration: none; color: inherit; transition: border-bottom var(--tra
   white-space: nowrap;
   transition: background-color var(--transition), border-color var(--transition), color var(--transition);
 }
-.oi-btn:focus { outline: none; }
+
+.oi-btn:focus {
+  outline: none;
+}
 
 /* Primary — sarı düymə */
 .oi-btn--primary {
   background-color: var(--yellow);
   color: var(--black);
 }
-.oi-btn--primary:hover { background-color: var(--yellow-hover); }
+
+.oi-btn--primary:hover {
+  background-color: var(--yellow-hover);
+}
 
 /* Outline / Ghost — şəffaf, ağ kənar (qaranlıq fonlarda) */
 .oi-btn--outline {
@@ -189,6 +232,7 @@ a   { text-decoration: none; color: inherit; transition: border-bottom var(--tra
   border: 1px solid rgba(255, 255, 255, 0.2);
   color: var(--white);
 }
+
 .oi-btn--outline:hover {
   background-color: rgba(255, 255, 255, 0.2);
   border-color: transparent;
@@ -200,7 +244,10 @@ a   { text-decoration: none; color: inherit; transition: border-bottom var(--tra
   color: var(--white);
   border: none;
 }
-.oi-btn--dark:hover { background-color: #333333; }
+
+.oi-btn--dark:hover {
+  background-color: #333333;
+}
 
 /* =============================================
    HERO
@@ -226,8 +273,8 @@ a   { text-decoration: none; color: inherit; transition: border-bottom var(--tra
   position: relative;
   z-index: 1;
   color: var(--white);
-  padding-top: 130px;
-  padding-bottom: 120px;
+  padding-top: clamp(120px, 26vw, 500px);
+  padding-bottom: clamp(60px, 6vw, 120px);
 }
 
 .oi-hero__title {
@@ -278,22 +325,24 @@ a   { text-decoration: none; color: inherit; transition: border-bottom var(--tra
   font-size: 15px;
   color: var(--black);
   max-width: 700px;
-  margin: 0 auto;
+  margin: 0;
   line-height: 1.7;
+  text-align: left;
 }
 
-/* ---- Portfolio Grid ---- */
+/* ---- Portfolio Grid — Figma: 2 col × 10px gap, card h=600px, padding 10px ---- */
 .oi-grid-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 0;
+  gap: 5px;
+  padding: 0 5px 5px;
 }
 
 .oi-thumb {
   position: relative;
   display: block;
   overflow: hidden;
-  height: 390px;
+  height: 600px;
   cursor: pointer;
   background: #111;
 }
@@ -329,11 +378,15 @@ a   { text-decoration: none; color: inherit; transition: border-bottom var(--tra
     opacity: 0;
     transition: opacity var(--transition), background-color var(--transition);
   }
+
   .oi-thumb:hover .oi-thumb__box {
     opacity: 1;
     background-color: var(--overlay-dark);
   }
-  .oi-thumb:hover .oi-thumb__pic img { transform: scale(1.06); }
+
+  .oi-thumb:hover .oi-thumb__pic img {
+    transform: scale(1.06);
+  }
 }
 
 .oi-thumb__title {
@@ -367,7 +420,7 @@ a   { text-decoration: none; color: inherit; transition: border-bottom var(--tra
 .mod-services {
   position: relative;
   padding: var(--section-padding) 0;
-  background-image: url('../img/darkside/02.jpg');
+  background-image: url('../img/Services.jpg');
   background-size: cover;
   background-position: center;
   color: var(--white);
@@ -435,7 +488,7 @@ a   { text-decoration: none; color: inherit; transition: border-bottom var(--tra
 }
 
 /* =============================================
-   PROCESS — ağ fon, horizontal bar-lar
+   PROCESS — Figma: rəngli bar kartlar, üfüqi sıra
    ============================================= */
 
 .mod-process {
@@ -443,57 +496,118 @@ a   { text-decoration: none; color: inherit; transition: border-bottom var(--tra
   background: var(--white);
 }
 
+/* Figma Heading 2: 43.5px, Light 300, lineHeight 0.828, LEFT */
 .mod-process .oi-section__title {
-  text-align: center;
-  margin-bottom: 15px;
+  font-size: 60px;
+  font-weight: 500;
+  line-height: 0.828;
+  text-align: left;
+  margin-bottom: 40px;
+  /* layout_4DO44L gap: 20px */
 }
 
+/* Figma desc→Stage1 gap: ~33px */
 .mod-process .oi-section__desc {
-  text-align: center;
-  margin-bottom: 48px;
+  text-align: left;
+  font-size: 20px;
+  line-height: 1.511;
+  max-width: 900px;
+  /* layout_4DO44L width: 592.94px */
+  margin-bottom: 50px;
 }
 
+/* Figma Stage1→Stage2 gap: ~15px */
 .oi-process {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 0 20px;
-}
-
-.oi-process__label {
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--black);
-  margin-bottom: 12px;
-}
-
-.oi-process__bar {
-  height: 6px;
-  border-radius: 0;
-  margin-bottom: 14px;
-}
-
-.oi-process__steps {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 15px;
 }
 
-.oi-process__steps span {
-  font-size: 13px;
+/* Figma Heading 3: 44.8px, Light 300, lineHeight 1.071, LEFT */
+.oi-process__stage-title {
+  font-size: 22px;
+  font-weight: 300;
+  line-height: 1.071;
   color: var(--black);
-  line-height: 1.4;
+  margin-bottom: 15px;
+  /* layout_QHT2AC gap: 15px */
+}
+
+/* Kartlar sırası — Figma: mode row, gap 0 */
+.oi-process__cards {
+  display: flex;
+  gap: 0;
+}
+
+/* Hər kart — Figma: mode column, gap 20px */
+.oi-process__card {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  /* layout_IZC78P gap: 20px */
+}
+
+/* Rəngli bar — Figma: height 60px, fill width */
+.oi-process__bar {
+  height: 20px;
+  width: 100%;
+  flex-shrink: 0;
+}
+
+/* Addım mətni — Figma: Inter Bold 13.9px, lineHeight 1.079 */
+.oi-process__card span {
+  font-size: 13.9px;
+  font-weight: 700;
+  color: var(--black);
+  line-height: 1.079;
 }
 
 /* =============================================
-   ABOUT / QUOTE — qaranlıq fon, böyük sitat
+   BLUEPRINT
+   ============================================= */
+
+.oi-blueprint {
+  padding: 0 500px;
+  line-height: 0;
+}
+
+.oi-blueprint img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+@media (max-width: 1200px) {
+  .oi-blueprint {
+    padding: 0 120px;
+  }
+}
+
+@media (max-width: 768px) {
+  .oi-blueprint {
+    padding: 0 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .oi-blueprint {
+    padding: 0 16px;
+  }
+}
+
+/* =============================================
+   ABOUT / QUOTE — Figma: fon şəkil, content aşağıda
    ============================================= */
 
 .mod-about {
   position: relative;
-  padding: 100px 0;
-  background-image: url('../img/darkside/05.jpg');
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 622px 0 120px;
+  /* Figma: top 622px, bottom 120px */
+  background-image: url('../img/about.jpg');
   background-size: cover;
   background-position: center;
 }
@@ -501,28 +615,64 @@ a   { text-decoration: none; color: inherit; transition: border-bottom var(--tra
 .oi-about__overlay {
   position: absolute;
   inset: 0;
-  background-color: rgba(0, 0, 0, 0.55);
+  background-color: rgba(0, 0, 0, 0.40);
+  /* Figma: Black 40% */
 }
 
 .oi-about__content {
   position: relative;
   z-index: 1;
+  margin: 120px;
+  padding: 0;
 }
 
+/* Figma Heading 2: 43.5px, Light 300, White, max-width 889px */
 .oi-about__quote {
-  font-size: 36px;
-  font-weight: 300;
+  font-size: 40px;
+  font-weight: 500;
   color: var(--white);
-  max-width: 700px;
-  line-height: 1.3;
+  max-width: 1200px;
+  line-height: 1.2;
   margin-bottom: 20px;
+  /* Figma: layout_5FO143 padding-top 20px */
 }
 
+/* Figma: Inter Regular 13.9px, White */
 .oi-about__desc {
-  font-size: 15px;
-  color: rgba(255, 255, 255, 0.85);
-  max-width: 500px;
-  line-height: 1.6;
+  font-size: 20px;
+  font-weight: 400;
+  color: var(--white);
+  line-height: 1.511;
+  max-width: 889px;
+}
+
+@media (max-width: 1024px) {
+  .mod-about {
+    padding: 300px 0 80px;
+  }
+
+  .oi-about__content {
+    padding: 0 60px;
+  }
+
+  .oi-about__quote {
+    font-size: 32px;
+  }
+}
+
+@media (max-width: 768px) {
+  .mod-about {
+    padding: 200px 0 60px;
+  }
+
+  .oi-about__content {
+    padding: 0 24px;
+  }
+
+  .oi-about__quote {
+    font-size: 26px;
+    line-height: 1.2;
+  }
 }
 
 /* =============================================
@@ -614,7 +764,9 @@ a   { text-decoration: none; color: inherit; transition: border-bottom var(--tra
   margin-bottom: 40px;
 }
 
-.oi-form__group { margin-bottom: 20px; }
+.oi-form__group {
+  margin-bottom: 20px;
+}
 
 .oi-form__group input,
 .oi-form__group textarea {
@@ -639,9 +791,17 @@ a   { text-decoration: none; color: inherit; transition: border-bottom var(--tra
   font-size: 15px;
 }
 
-.oi-form__group input:focus   { border-bottom: 2px solid var(--black); }
-.oi-form__group textarea:focus { border-color: var(--black); }
-.oi-form__group input.error    { border-bottom-color: #e74c3c; }
+.oi-form__group input:focus {
+  border-bottom: 2px solid var(--black);
+}
+
+.oi-form__group textarea:focus {
+  border-color: var(--black);
+}
+
+.oi-form__group input.error {
+  border-bottom-color: #e74c3c;
+}
 
 .oi-form__error {
   display: block;
@@ -663,12 +823,19 @@ a   { text-decoration: none; color: inherit; transition: border-bottom var(--tra
   color: var(--white);
   border-radius: var(--btn-radius);
 }
-.oi-contacts__form .oi-btn:hover { background-color: #333333; }
+
+.oi-contacts__form .oi-btn:hover {
+  background-color: #333333;
+}
 
 /* Sağ tərəf */
-.oi-contacts__info { padding-top: 72px; }
+.oi-contacts__info {
+  padding-top: 72px;
+}
 
-.oi-contacts__block { margin-bottom: 28px; }
+.oi-contacts__block {
+  margin-bottom: 28px;
+}
 
 .oi-contacts__block h4 {
   font-size: 11px;
@@ -698,6 +865,7 @@ a   { text-decoration: none; color: inherit; transition: border-bottom var(--tra
   border-bottom: 1px solid rgba(0, 0, 0, 0.4);
   transition: border-color var(--transition);
 }
+
 .oi-contacts__block a[href^="mailto"]:hover {
   border-bottom-color: var(--black);
 }
@@ -722,9 +890,18 @@ a   { text-decoration: none; color: inherit; transition: border-bottom var(--tra
   color: rgba(255, 255, 255, 0.4);
 }
 
-.oi-footer .oi-lang { color: rgba(255, 255, 255, 0.4); }
-.oi-footer .oi-lang__item { color: rgba(255, 255, 255, 0.4); }
-.oi-footer .oi-lang__item.active { color: var(--white); opacity: 1; }
+.oi-footer .oi-lang {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.oi-footer .oi-lang__item {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.oi-footer .oi-lang__item.active {
+  color: var(--white);
+  opacity: 1;
+}
 
 /* =============================================
    SCROLL ANİMASİYALAR
@@ -735,52 +912,186 @@ a   { text-decoration: none; color: inherit; transition: border-bottom var(--tra
   transform: translateY(24px);
   transition: opacity 0.6s ease, transform 0.6s ease;
 }
-.anim-fade.is-visible { opacity: 1; transform: translateY(0); }
 
-.oi-service__card.anim-fade:nth-child(2) { transition-delay: 0.1s; }
-.oi-service__card.anim-fade:nth-child(3) { transition-delay: 0.2s; }
-.oi-thumb.anim-fade:nth-child(even)       { transition-delay: 0.12s; }
+.anim-fade.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.oi-service__card.anim-fade:nth-child(2) {
+  transition-delay: 0.1s;
+}
+
+.oi-service__card.anim-fade:nth-child(3) {
+  transition-delay: 0.2s;
+}
+
+.oi-thumb.anim-fade:nth-child(even) {
+  transition-delay: 0.12s;
+}
 
 /* =============================================
    RESPONSİV
    ============================================= */
 
+/* --- 1200px-dən kiçik --- */
+@media (max-width: 1200px) {
+  .mod-about {
+    padding: 400px 0 80px;
+  }
+
+  .oi-about__content {
+    margin: 60px;
+  }
+}
+
 /* --- 1025px-dən kiçik --- */
 @media (max-width: 1024px) {
-  .oi-process { grid-template-columns: repeat(3, 1fr); gap: 30px; }
+  .mod-process .oi-section__title {
+    font-size: 32px;
+    line-height: 1;
+  }
+
+  .oi-process__stage-title {
+    font-size: 26px;
+    line-height: 1.1;
+  }
+
+  .oi-process__cards {
+    flex-wrap: wrap;
+  }
+
+  .oi-process__card {
+    flex: 0 0 calc(33.333% - 1px);
+  }
+
+  .mod-about {
+    padding: 300px 0 80px;
+  }
+
+  .oi-about__content {
+    margin: 40px;
+  }
 }
 
 /* --- Tablet: max 768px --- */
 @media (max-width: 768px) {
-  .oi-container { padding: 0 20px; }
+  .oi-container {
+    padding: 0 20px;
+  }
 
-  .oi-header { margin-bottom: -100px; }
-  .oi-header__inner { padding-top: 24px; }
-  .oi-nav__contacts { display: none; }
+  .oi-header {
+    margin-bottom: -80px;
+  }
+
+  .oi-header__inner {
+    padding-top: 20px;
+    padding-bottom: 16px;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .oi-nav__contacts {
+    display: none;
+  }
 
   /* Tipografiya */
-  .oi-hero__title       { font-size: 36px; }
-  .oi-section__title    { font-size: 32px; }
-  .oi-about__quote      { font-size: 26px; }
-  .oi-features__title   { font-size: 26px; }
+  .oi-hero__title {
+    font-size: 36px;
+  }
+
+  .oi-section__title {
+    font-size: 28px;
+  }
+
+  .oi-about__quote {
+    font-size: 24px;
+    line-height: 1.2;
+  }
+
+  .oi-features__title {
+    font-size: 24px;
+  }
 
   /* Düymələr tam en */
-  .oi-btn { width: 100%; }
-  .oi-hero__btns { flex-direction: column; gap: 12px; }
+  .oi-btn {
+    width: 100%;
+  }
+
+  .oi-hero__btns {
+    flex-direction: column;
+    gap: 12px;
+  }
 
   /* Grid-lər 1 sütuna */
-  .oi-grid-row          { grid-template-columns: 1fr; }
-  .oi-services__grid    { grid-template-columns: 1fr; }
-  .oi-process           { grid-template-columns: 1fr 1fr; gap: 24px; }
-  .oi-features__inner   { grid-template-columns: 1fr; gap: 40px; }
-  .oi-features__list    { grid-template-columns: 1fr; }
-  .oi-contacts__inner   { grid-template-columns: 1fr; gap: 40px; }
+  .oi-grid-row {
+    grid-template-columns: 1fr;
+    padding: 0 5px 5px;
+  }
 
-  .oi-thumb { height: 260px; }
-  .oi-thumb__box { opacity: 1; background-color: var(--overlay-light); }
+  .oi-services__grid {
+    grid-template-columns: 1fr;
+  }
 
-  .oi-features__right { aspect-ratio: 3/2; }
-  .oi-contacts__info { padding-top: 0; }
+  .oi-features__inner {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .oi-features__list {
+    grid-template-columns: 1fr;
+  }
+
+  .oi-contacts__inner {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  /* Process */
+  .mod-process .oi-section__title {
+    font-size: 24px;
+    line-height: 1;
+  }
+
+  .oi-process__stage-title {
+    font-size: 20px;
+    line-height: 1.2;
+  }
+
+  .oi-process__cards {
+    flex-wrap: wrap;
+  }
+
+  .oi-process__card {
+    flex: 0 0 calc(50% - 1px);
+  }
+
+  /* About */
+  .mod-about {
+    padding: 160px 0 48px;
+  }
+
+  .oi-about__content {
+    margin: 20px 24px;
+  }
+
+  /* Portfolio kartlar */
+  .oi-thumb {
+    height: 260px;
+  }
+
+  .oi-thumb__box {
+    opacity: 1;
+    background-color: var(--overlay-light);
+  }
+
+  .oi-features__right {
+    aspect-ratio: 3/2;
+  }
+
+  .oi-contacts__info {
+    padding-top: 0;
+  }
 
   .oi-footer__inner {
     flex-direction: column;
@@ -791,22 +1102,46 @@ a   { text-decoration: none; color: inherit; transition: border-bottom var(--tra
   .mod-portfolio,
   .mod-services,
   .mod-process,
-  .mod-about,
   .mod-features,
-  .mod-contacts { padding: 48px 0; }
+  .mod-contacts {
+    padding: 48px 0;
+  }
 
-  .mod-portfolio { padding-bottom: 0; }
-  .mod-about { padding: 60px 0; }
+  .mod-portfolio {
+    padding-bottom: 0;
+  }
 }
 
 /* --- Kiçik mobil: max 576px --- */
 @media (max-width: 576px) {
-  .oi-hero__title    { font-size: 28px; }
-  .oi-section__title { font-size: 26px; }
-  .oi-process        { grid-template-columns: 1fr; }
+  .oi-hero__title {
+    font-size: 26px;
+  }
+
+  .oi-section__title {
+    font-size: 22px;
+  }
+
+  .oi-process__stage-title {
+    font-size: 17px;
+  }
+
+  .oi-process__card {
+    flex: 0 0 100%;
+  }
+
+  .mod-about {
+    padding: 100px 0 40px;
+  }
+
+  .oi-about__content {
+    margin: 16px;
+  }
 }
 
 /* --- Large Desktop: 1441px+ --- */
 @media (min-width: 1441px) {
-  .oi-container { max-width: 1400px; }
+  .oi-container {
+    max-width: 1400px;
+  }
 }
