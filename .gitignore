@@ -1,0 +1,7 @@
+# Secrets & local config
+.mcp.json
+.claude/settings.local.json
+
+# OS
+.DS_Store
+Thumbs.db
