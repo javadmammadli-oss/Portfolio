@@ -19,6 +19,48 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
+  // Hero scroll-driven video
+  var heroVideo = document.querySelector('.oi-hero__video');
+  if (heroVideo) {
+    var SCROLL_PX = 800; // scroll wheel px to traverse full video duration
+
+    function showVideoFallback() {
+      heroVideo.style.display = 'none';
+      var hero = document.querySelector('.mod-hero');
+      if (hero) {
+        hero.style.backgroundImage = "url('img/hero/hero-bg.jpg')";
+        hero.style.backgroundSize  = 'cover';
+        hero.style.backgroundPosition = 'center';
+      }
+    }
+
+    heroVideo.pause();
+    heroVideo.currentTime = 0;
+
+    heroVideo.addEventListener('error', function () {
+      console.warn('Hero video failed');
+      showVideoFallback();
+    });
+
+    window.addEventListener('wheel', function (e) {
+      var dur = heroVideo.duration;
+      if (!dur || window.scrollY !== 0) return;
+
+      var scrollingDown = e.deltaY > 0;
+      var atEnd   = heroVideo.currentTime >= dur - 0.05;
+      var atStart = heroVideo.currentTime <= 0.05;
+
+      if (scrollingDown && atEnd)    return;
+      if (!scrollingDown && atStart) return;
+
+      e.preventDefault();
+      heroVideo.currentTime = Math.min(
+        dur,
+        Math.max(0, heroVideo.currentTime + (e.deltaY / SCROLL_PX) * dur)
+      );
+    }, { passive: false });
+  }
+
   // Contact form
   const form = document.getElementById('contactForm');
   if (form) {
