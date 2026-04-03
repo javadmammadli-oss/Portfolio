@@ -19,12 +19,10 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
-  // Hero scroll-driven video
+  // Hero video
   var heroVideo = document.querySelector('.oi-hero__video');
   if (heroVideo) {
-    var reversing  = false;
-    var reverseRaf = null;
-    var stopTimer  = null;
+    var isMobile = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
 
     function videoFallback() {
       heroVideo.style.display = 'none';
@@ -37,61 +35,64 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     heroVideo.addEventListener('error', videoFallback);
-    heroVideo.pause();
-    heroVideo.currentTime = 0;
 
-    function stopAll() {
-      reversing = false;
-      if (!heroVideo.paused) heroVideo.pause();
-      if (reverseRaf) { clearInterval(reverseRaf); reverseRaf = null; }
-    }
+    if (isMobile) {
+      // Mobile: autoplay loop
+      heroVideo.setAttribute('autoplay', '');
+      heroVideo.setAttribute('loop', '');
+      heroVideo.play().catch(videoFallback);
+    } else {
+      // Desktop: scroll-driven play / reverse
+      var reversing  = false;
+      var reverseRaf = null;
+      var stopTimer  = null;
 
-    var REVERSE_MS = 50; // seek interval in ms (~20fps) — fewer seeks = smoother
-    function startReverse() {
-      if (reverseRaf) return;
-      reverseRaf = setInterval(function () {
-        if (!reversing) { clearInterval(reverseRaf); reverseRaf = null; return; }
-        if (heroVideo.seeking) return; // wait for previous seek to finish
-        var newTime = Math.max(0, heroVideo.currentTime - (REVERSE_MS / 1000) * heroVideo.playbackRate);
-        heroVideo.currentTime = newTime;
-        if (newTime <= 0) stopAll();
-      }, REVERSE_MS);
-    }
+      heroVideo.pause();
+      heroVideo.currentTime = 0;
+      heroVideo.playbackRate = 4.5;
 
-    heroVideo.playbackRate = 4.5;
-
-    window.addEventListener('wheel', function (e) {
-      var dur = heroVideo.duration;
-      if (!dur) return;
-
-      // Only intercept at the very top of the page
-      if (window.scrollY !== 0) return;
-
-      var goingDown = e.deltaY > 0;
-      var atEnd     = heroVideo.currentTime >= dur - 0.05;
-      var atStart   = heroVideo.currentTime <= 0.05;
-
-      // Video done → let page scroll down normally
-      if (goingDown && atEnd)    return;
-      // Video at start → nothing above, let browser handle
-      if (!goingDown && atStart) return;
-
-      e.preventDefault();
-      clearTimeout(stopTimer);
-
-      if (goingDown) {
-        if (reversing) stopAll();
-        if (heroVideo.paused) heroVideo.play();
-      } else {
+      function stopAll() {
+        reversing = false;
         if (!heroVideo.paused) heroVideo.pause();
-        if (!reversing) {
-          reversing = true;
-          startReverse();
-        }
+        if (reverseRaf) { clearInterval(reverseRaf); reverseRaf = null; }
       }
 
-      stopTimer = setTimeout(stopAll, 120);
-    }, { passive: false });
+      function startReverse() {
+        if (reverseRaf) return;
+        reverseRaf = setInterval(function () {
+          if (!reversing) { clearInterval(reverseRaf); reverseRaf = null; return; }
+          if (heroVideo.seeking) return;
+          var newTime = Math.max(0, heroVideo.currentTime - (50 / 1000) * heroVideo.playbackRate);
+          heroVideo.currentTime = newTime;
+          if (newTime <= 0) stopAll();
+        }, 50);
+      }
+
+      window.addEventListener('wheel', function (e) {
+        var dur = heroVideo.duration;
+        if (!dur || window.scrollY !== 0) return;
+
+        var goingDown = e.deltaY > 0;
+        var atEnd     = heroVideo.currentTime >= dur - 0.05;
+        var atStart   = heroVideo.currentTime <= 0.05;
+
+        if (goingDown && atEnd)    return;
+        if (!goingDown && atStart) return;
+
+        e.preventDefault();
+        clearTimeout(stopTimer);
+
+        if (goingDown) {
+          if (reversing) stopAll();
+          if (heroVideo.paused) heroVideo.play();
+        } else {
+          if (!heroVideo.paused) heroVideo.pause();
+          if (!reversing) { reversing = true; startReverse(); }
+        }
+
+        stopTimer = setTimeout(stopAll, 120);
+      }, { passive: false });
+    }
   }
 
   // Contact form
