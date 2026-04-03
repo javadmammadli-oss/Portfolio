@@ -22,42 +22,75 @@ document.addEventListener('DOMContentLoaded', function () {
   // Hero scroll-driven video
   var heroVideo = document.querySelector('.oi-hero__video');
   if (heroVideo) {
-    var SCROLL_PX = 800; // scroll wheel px to traverse full video duration
+    var reversing  = false;
+    var reverseRaf = null;
+    var stopTimer  = null;
 
-    function showVideoFallback() {
+    function videoFallback() {
       heroVideo.style.display = 'none';
       var hero = document.querySelector('.mod-hero');
       if (hero) {
-        hero.style.backgroundImage = "url('img/hero/hero-bg.jpg')";
-        hero.style.backgroundSize  = 'cover';
+        hero.style.backgroundImage    = "url('img/hero/hero-bg.jpg')";
+        hero.style.backgroundSize     = 'cover';
         hero.style.backgroundPosition = 'center';
       }
     }
 
+    heroVideo.addEventListener('error', videoFallback);
     heroVideo.pause();
     heroVideo.currentTime = 0;
 
-    heroVideo.addEventListener('error', function () {
-      console.warn('Hero video failed');
-      showVideoFallback();
-    });
+    function stopAll() {
+      reversing = false;
+      if (!heroVideo.paused) heroVideo.pause();
+      if (reverseRaf) { clearInterval(reverseRaf); reverseRaf = null; }
+    }
+
+    var REVERSE_MS = 50; // seek interval in ms (~20fps) — fewer seeks = smoother
+    function startReverse() {
+      if (reverseRaf) return;
+      reverseRaf = setInterval(function () {
+        if (!reversing) { clearInterval(reverseRaf); reverseRaf = null; return; }
+        if (heroVideo.seeking) return; // wait for previous seek to finish
+        var newTime = Math.max(0, heroVideo.currentTime - (REVERSE_MS / 1000) * heroVideo.playbackRate);
+        heroVideo.currentTime = newTime;
+        if (newTime <= 0) stopAll();
+      }, REVERSE_MS);
+    }
+
+    heroVideo.playbackRate = 4.5;
 
     window.addEventListener('wheel', function (e) {
       var dur = heroVideo.duration;
-      if (!dur || window.scrollY !== 0) return;
+      if (!dur) return;
 
-      var scrollingDown = e.deltaY > 0;
-      var atEnd   = heroVideo.currentTime >= dur - 0.05;
-      var atStart = heroVideo.currentTime <= 0.05;
+      // Only intercept at the very top of the page
+      if (window.scrollY !== 0) return;
 
-      if (scrollingDown && atEnd)    return;
-      if (!scrollingDown && atStart) return;
+      var goingDown = e.deltaY > 0;
+      var atEnd     = heroVideo.currentTime >= dur - 0.05;
+      var atStart   = heroVideo.currentTime <= 0.05;
+
+      // Video done → let page scroll down normally
+      if (goingDown && atEnd)    return;
+      // Video at start → nothing above, let browser handle
+      if (!goingDown && atStart) return;
 
       e.preventDefault();
-      heroVideo.currentTime = Math.min(
-        dur,
-        Math.max(0, heroVideo.currentTime + (e.deltaY / SCROLL_PX) * dur)
-      );
+      clearTimeout(stopTimer);
+
+      if (goingDown) {
+        if (reversing) stopAll();
+        if (heroVideo.paused) heroVideo.play();
+      } else {
+        if (!heroVideo.paused) heroVideo.pause();
+        if (!reversing) {
+          reversing = true;
+          startReverse();
+        }
+      }
+
+      stopTimer = setTimeout(stopAll, 120);
     }, { passive: false });
   }
 
