@@ -38,6 +38,10 @@ body {
   background: var(--white);
 }
 
+body.oi-loading [data-setting] {
+  visibility: hidden;
+}
+
 img {
   display: block;
   width: 100%;
@@ -88,21 +92,20 @@ a {
 
 .oi-nav {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: 32px;
-  padding-top: 4px;
 }
 
 .oi-nav__contacts {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: 4px;
+  
 }
 
 .oi-nav__email,
 .oi-nav__phone {
-  font-size: 13px;
+  font-size: 20px;
   font-weight: 400;
   color: var(--white);
   border-bottom: 1px solid transparent;
@@ -224,6 +227,23 @@ a {
   background-color: #333;
 }
 
+.oi-features__pdf-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 16px;
+  font-size: 13px;
+  color: var(--black);
+  opacity: 0.75;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: opacity 0.2s;
+}
+
+.oi-features__pdf-link:hover {
+  opacity: 1;
+}
+
 /* Hero */
 
 .mod-hero {
@@ -249,6 +269,17 @@ a {
   position: absolute;
   inset: 0;
   background-color: var(--overlay-light);
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  pointer-events: none;
+}
+
+.oi-hero__scroll-hint {
+  width: 50px;
+  height: 80px;
+  margin-bottom: 32px;
+  opacity: 0.7;
 }
 
 .oi-hero__content {
@@ -259,34 +290,50 @@ a {
   padding-bottom: clamp(60px, 6vw, 120px);
 }
 
+@keyframes hero-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(36px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .oi-hero__title {
   font-size: 60px;
   font-weight: 300;
-  line-height: 0.9;
+  line-height: 1.2;
   margin-bottom: 20px;
-  max-width: 600px;
+  max-width: 900px;
   color: var(--white);
+  opacity: 0;
+  animation: hero-fade-up 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.3s forwards;
 }
 
 .oi-hero__sub {
-  font-size: 15px;
+  font-size: 20px;
   color: var(--white);
-  opacity: 0.85;
+  opacity: 0;
   margin-bottom: 40px;
-  max-width: 550px;
+  max-width: 1200px;
   line-height: 1.6;
+  animation: hero-fade-up 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.55s forwards;
 }
 
 .oi-hero__btns {
   display: flex;
   gap: 37px;
   flex-wrap: wrap;
+  opacity: 0;
+  animation: hero-fade-up 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.8s forwards;
 }
 
 /* Portfolio */
 
 .mod-portfolio {
-  padding: var(--section-padding) 0 0;
+  padding: 40px 0 0;
 }
 
 .mod-portfolio__header {
@@ -299,15 +346,16 @@ a {
   font-weight: 300;
   margin-bottom: 15px;
   color: var(--black);
+  text-align: center;
 }
 
 .oi-section__desc {
   font-size: 15px;
   color: var(--black);
   max-width: 700px;
-  margin: 0;
+  margin: 0 auto 0 0;
   line-height: 1.7;
-  text-align: left;
+  text-align: center;
 }
 
 .oi-grid-row {
@@ -528,6 +576,20 @@ a {
   width: 100%;
   height: auto;
   display: block;
+}
+
+.oi-blueprint__note {
+  text-align: center;
+  font-size: 15px;
+  color: var(--black);
+  opacity: 0.7;
+  margin: 0 0 20px;
+}
+
+.oi-blueprint__link {
+  color: var(--black);
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
 @media (max-width: 1200px) {

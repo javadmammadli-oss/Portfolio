@@ -30,13 +30,17 @@
 
   async function loadSettings() {
     var result = await sb.from('settings').select('key, value');
-    if (result.error || !result.data) return;
+    if (result.error || !result.data) {
+      document.body.classList.remove('oi-loading');
+      return;
+    }
 
     var s = {};
     result.data.forEach(function (row) { s[row.key] = row.value || ''; });
 
     window._siteSettings = s;
     applyContactSettings(s);
+    document.body.classList.remove('oi-loading');
 
     if (typeof window.applyLang === 'function') {
       window.applyLang(window.currentLang || 'az');

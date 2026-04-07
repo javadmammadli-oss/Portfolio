@@ -9,9 +9,10 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="css/main.css">
+  <script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs" type="module"></script>
 </head>
 
-<body>
+<body class="oi-loading">
 
   <!-- ===== HEADER ===== -->
   <header class="oi-header">
@@ -64,7 +65,12 @@
     <video class="oi-hero__video" muted playsinline preload="auto">
       <source src="img/hero/hero-bg_video.mp4" type="video/mp4">
     </video>
-    <div class="oi-hero__overlay"></div>
+    <div class="oi-hero__overlay">
+      <dotlottie-player class="oi-hero__scroll-hint"
+        src="https://lottie.host/d8f97aba-919f-4ef4-98df-db8d0102cab7/lZsHzFEtxM.lottie" background="transparent"
+        speed="1" loop autoplay>
+      </dotlottie-player>
+    </div>
     <div class="oi-container oi-hero__content">
       <h1 class="oi-hero__title" data-i18n="hero_title">Biz sizin həyatınız üçün harmoniya və rahatlıq yaratmağı sevirik
       </h1>
@@ -239,6 +245,8 @@
   <div class="oi-blueprint">
     <img src="img/blueprint.png" alt="Blueprint">
   </div>
+  <p class="oi-blueprint__note">The plan of wall mounting and dismantling. For more details, you can check <a
+      href="img/Design_Concept.pdf" download class="oi-blueprint__link"><strong>design concept.</strong></a></p>
 
   <!-- ===== ABOUT / QUOTE ===== -->
   <section class="oi-section mod-about" id="about">
@@ -298,6 +306,12 @@
           </li>
         </ul>
         <a href="#contacts" class="oi-btn oi-btn--dark" data-i18n="features_btn">Dizayn Layihəsi Sifariş Et</a>
+        <a href="img/sample_projec.pdf" download class="oi-features__pdf-link">
+          <dotlottie-player src="https://lottie.host/2e005a29-d5de-4ba8-b809-31b5f1907525/YHqA0haVD8.lottie"
+            background="transparent" speed="1" loop autoplay
+            style="width:100px;height:100px;flex-shrink:0"></dotlottie-player>
+          <span>Get pdf Design concept with a set of construction drawings.</span>
+        </a>
       </div>
 
     </div>
